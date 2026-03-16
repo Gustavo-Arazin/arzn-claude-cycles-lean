@@ -7,25 +7,53 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 45
     steps:
       - uses: actions/checkout@v4
 
       - name: Install elan (Lean toolchain manager)
+        shell: bash
         run: |
-          curl https://elan.lean-lang.org/elan-init.sh -sSf | sh -s -- -y
-          echo "$HOME/.elan/bin" >> $GITHUB_PATH
+          set -euxo pipefail
+          curl -L -sSf https://elan.lean-lang.org/elan-init.sh | sh -s -- -y
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+          "$HOME/.elan/bin/elan" --version
+
+      - name: Prepare toolchain + show project
+        shell: bash
+        run: |
+          set -euxo pipefail
+          cd ClaudeCyclesARZN_Lean_M0
+          ls -la
+          echo "lean-toolchain:"
+          cat lean-toolchain
+          TOOLCHAIN="$(cat lean-toolchain)"
+          echo "Installing toolchain: $TOOLCHAIN"
+          elan toolchain install "$TOOLCHAIN"
+          elan default "$TOOLCHAIN"
+          which lake
+          lake --version
+          which lean
+          lean --version
 
       - name: lake update (generates lake-manifest.json)
+        shell: bash
         run: |
+          set -euxo pipefail
           cd ClaudeCyclesARZN_Lean_M0
           lake update
+          ls -la lake-manifest.json
 
-      - name: mathlib cache (speeds up build)
+      - name: mathlib cache (optional)
+        shell: bash
         run: |
+          set -euxo pipefail
           cd ClaudeCyclesARZN_Lean_M0
-          lake exe cache get
+          lake exe cache get || true
 
       - name: lake build
+        shell: bash
         run: |
+          set -euxo pipefail
           cd ClaudeCyclesARZN_Lean_M0
           lake build
