@@ -1,7 +1,6 @@
-[package]
 name = "ClaudeCyclesARZN"
 version = "0.1.0"
-lean_version = "leanprover/lean4:v4.27.0"
+defaultTargets = ["ClaudeCyclesARZN"]
 
 [[require]]
 name = "mathlib"
@@ -9,7 +8,4 @@ scope = "leanprover-community"
 rev = "v4.27.0"
 
 [[lean_lib]]
-name = "ClaudeCyclesARZN"
-
-[[default_target]]
 name = "ClaudeCyclesARZN"
