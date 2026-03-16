@@ -10,43 +10,21 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # 1) Só instala elan/Lean/Lake e configura ambiente (sem build)
-      - name: Setup Lean toolchain (no build yet)
-        uses: leanprover/lean-action@v1
-        with:
-          lake-package-directory: "ClaudeCyclesARZN_Lean_M0"
-          auto-config: "false"
-          build: "false"
-          test: "false"
-          lint: "false"
-          use-mathlib-cache: "false"
-          use-github-cache: "false"
-
-      # 2) Diagnóstico mínimo (vai aparecer nos logs)
-      - name: Debug toolchain + project root
+      - name: Install elan (Lean toolchain manager)
         run: |
-          cd ClaudeCyclesARZN_Lean_M0
-          echo "PWD=$(pwd)"
-          ls -la
-          echo "lean-toolchain:"
-          cat lean-toolchain
-          echo "lake:"
-          which lake
-          lake --version
+          curl https://elan.lean-lang.org/elan-init.sh -sSf | sh -s -- -y
+          echo "$HOME/.elan/bin" >> $GITHUB_PATH
 
-      # 3) Gera lake-manifest.json (corrige o erro que você viu)
-      - name: lake update
+      - name: lake update (generates lake-manifest.json)
         run: |
           cd ClaudeCyclesARZN_Lean_M0
           lake update
 
-      # 4) Acelera com cache de oleans do mathlib (opcional, mas recomendado)
-      - name: mathlib cache
+      - name: mathlib cache (speeds up build)
         run: |
           cd ClaudeCyclesARZN_Lean_M0
           lake exe cache get
 
-      # 5) Compila
       - name: lake build
         run: |
           cd ClaudeCyclesARZN_Lean_M0
