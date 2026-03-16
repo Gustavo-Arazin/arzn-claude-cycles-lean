@@ -1,0 +1,19 @@
+[package]
+name = "ClaudeCyclesARZN"
+version = "0.1.0"
+lean_version = "leanprover/lean4:v4.27.0"
+
+[[require]]
+name = "mathlib"
+scope = "leanprover-community"
+rev = "v4.27.0"
+
+[lean_lib]
+name = "ClaudeCyclesARZN"
+
+[[lean_lib]]
+name = "ClaudeCyclesARZN"
+globs = ["ClaudeCyclesARZN/**/*.lean"]
+
+[[default_target]]
+name = "ClaudeCyclesARZN"
