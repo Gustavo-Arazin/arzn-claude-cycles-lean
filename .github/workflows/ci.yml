@@ -10,17 +10,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Debug: show repo layout
-        run: |
-          echo "ROOT:"
-          ls -la
-          echo "PROJECT DIR:"
-          ls -la ClaudeCyclesARZN_Lean_M0 || true
-          echo "LOOKING FOR lakefile.toml:"
-          ls -la ClaudeCyclesARZN_Lean_M0/lakefile.toml || true
-          echo "lean-toolchain:"
-          cat ClaudeCyclesARZN_Lean_M0/lean-toolchain || true
-
       - name: Build (Lean + Lake)
         uses: leanprover/lean-action@v1
         with:
