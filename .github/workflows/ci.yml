@@ -10,9 +10,30 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Build (Lean + Lake)
+      # 1) instala Lean/Lake (não compila nada aqui)
+      - name: Setup Lean toolchain
         uses: leanprover/lean-action@v1
         with:
-          lake-package-directory: "ClaudeCyclesARZN_Lean_M0"
+          auto-config: false
+          build: false
+          test: false
+          lint: false
           use-github-cache: false
-          auto-config: true
+
+      # 2) gera o lake-manifest.json (fix do erro)
+      - name: lake update
+        run: |
+          cd ClaudeCyclesARZN_Lean_M0
+          lake update
+
+      # 3) (recomendado) pega cache de oleans do mathlib para acelerar
+      - name: mathlib cache
+        run: |
+          cd ClaudeCyclesARZN_Lean_M0
+          lake exe cache get
+
+      # 4) compila
+      - name: lake build
+        run: |
+          cd ClaudeCyclesARZN_Lean_M0
+          lake build
