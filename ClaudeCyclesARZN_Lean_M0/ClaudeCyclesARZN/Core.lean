@@ -43,14 +43,12 @@ theorem arcSet_disjoint_of_outgoingDistinct {α : Type} {f g : α → α}
   intro a ha hb
   rcases ha with ⟨v, rfl⟩
   rcases hb with ⟨w, hw⟩
-  -- (v, f v) = (w, g w) implies v = w and f v = g v
-  have : v = w := by
-    -- compare first components
+  have hvw : v = w := by
     simpa [Prod.ext_iff] using congrArg Prod.fst hw
-  subst this
-  have : f w = g w := by
+  subst hvw
+  have hfg : f v = g v := by
     simpa [Prod.ext_iff] using congrArg Prod.snd hw
-  exact (h w) this
+  exact (h v) hfg
 
 /-- A successor function is "permutation-like" if it is bijective. -/
 def IsPermutation {α : Type} (f : α → α) : Prop := Function.Bijective f
