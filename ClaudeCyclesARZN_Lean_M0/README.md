@@ -1,3 +1,4 @@
+[![ci](https://github.com/Gustavo-Arazin/arzn-claude-cycles-lean/actions/workflows/ci.yml/badge.svg)](https://github.com/Gustavo-Arazin/arzn-claude-cycles-lean/actions/workflows/ci.yml)
 # ClaudeCyclesARZN (Lean4) — Milestone M0
 
 This repository is a **construction-agnostic** Lean4 scaffolding for formalizing the verification logic
