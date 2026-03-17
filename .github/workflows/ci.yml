@@ -44,15 +44,6 @@ jobs:
           lake update
           ls -la lake-manifest.json
 
-      - name: Print lake-manifest.json (copy/paste into repo)
-        shell: bash
-        run: |
-          set -euxo pipefail
-          cd ClaudeCyclesARZN_Lean_M0
-          echo "BEGIN_MANIFEST"
-          cat lake-manifest.json
-          echo "END_MANIFEST"
-
       - name: mathlib cache (optional)
         shell: bash
         run: |
