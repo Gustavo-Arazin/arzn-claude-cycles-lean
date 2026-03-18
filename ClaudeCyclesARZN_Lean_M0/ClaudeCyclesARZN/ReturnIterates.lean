@@ -21,8 +21,17 @@ theorem returnPow_eq_succPow_mul {m : Nat} (σ : LocalRule m) (c : Color) (k : N
   | zero =>
       simp [returnPow, succPow]
   | succ k ih =>
-      simp [returnPow, returnMap, ih, succPow_mul_add, Nat.succ_mul, Nat.add_comm, Nat.add_left_comm,
-        Nat.add_assoc]
+      calc
+        returnPow σ c (k + 1) v
+            = returnMap σ c (returnPow σ c k v) := by
+                simp [returnPow]
+        _ = succPow σ c m (succPow σ c (k * m) v) := by
+              simp [returnMap, ih]
+        _ = succPow σ c (k * m + m) v := by
+              symm
+              exact succPow_mul_add (σ := σ) (c := c) (k := k) (r := m) v
+        _ = succPow σ c ((k + 1) * m) v := by
+              rw [Nat.succ_mul]
 
 /-- Block decomposition: `k*m + r` successor steps are `k` return steps plus `r` residual steps. -/
 theorem succPow_block_decomposition {m : Nat} (σ : LocalRule m) (c : Color)
