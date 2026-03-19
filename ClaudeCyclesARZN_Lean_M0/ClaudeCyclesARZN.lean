@@ -7,6 +7,7 @@ import ClaudeCyclesARZN.Orbit
 import ClaudeCyclesARZN.ReturnIterates
 import ClaudeCyclesARZN.FiberSlices
 import ClaudeCyclesARZN.GlobalLift
+import ClaudeCyclesARZN.StrongReduction
 
 /-!
 # ClaudeCyclesARZN
@@ -14,5 +15,5 @@ import ClaudeCyclesARZN.GlobalLift
 Entry point file. `Core` contains the M0 generic scaffolding.
 `Torus` and `Fiber` implement the M1 formal model.
 `ReturnMap`, `Reduction`, `Orbit`, `ReturnIterates`, `FiberSlices`,
-and `GlobalLift` build the M2 return-map layer.
+`GlobalLift`, and `StrongReduction` build the M2 return-map layer.
 -/
