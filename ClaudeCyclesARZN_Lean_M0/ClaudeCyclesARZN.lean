@@ -1,6 +1,7 @@
 import ClaudeCyclesARZN.Core
 import ClaudeCyclesARZN.Torus
 import ClaudeCyclesARZN.Fiber
+import ClaudeCyclesARZN.EvenRule
 import ClaudeCyclesARZN.ReturnMap
 import ClaudeCyclesARZN.Reduction
 import ClaudeCyclesARZN.Orbit
