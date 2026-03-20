@@ -1,0 +1,103 @@
+{
+  "artifact": "canonical machine-readable encoding of tau(i,j) for the layer s = m - 2",
+  "status": "source-locked textual guard encoding",
+  "canonical_source": {
+    "title": "A proof for the even closed-form rule in Claude’s Cycles",
+    "date": "2026-03-06",
+    "rule_location": "Section 1",
+    "tau_location": "Appendix A"
+  },
+  "domain": {
+    "m": "even integer >= 8",
+    "h": "m / 2",
+    "layer": "s = m - 2"
+  },
+  "codomain": ["012", "021", "102", "120", "201", "210"],
+  "encoding_version": "v1-textual-guards",
+  "rows": [
+    {
+      "row": "i = 0",
+      "cases": [
+        { "when": "j = m - 2", "tau": "210" },
+        { "when": "j = m - 1", "tau": "102" },
+        { "when": "otherwise", "tau": "012" }
+      ]
+    },
+    {
+      "row": "i = 1",
+      "cases": [
+        { "when": "j = m - 2", "tau": "201" },
+        { "when": "j = m - 1", "tau": "210" },
+        { "when": "otherwise", "tau": "012" }
+      ]
+    },
+    {
+      "row": "2 <= i <= h - 3",
+      "cases": [
+        { "when": "j = m - 1 - i", "tau": "102" },
+        { "when": "j = m - 1", "tau": "210" },
+        { "when": "otherwise", "tau": "012" }
+      ]
+    },
+    {
+      "row": "i = h - 2",
+      "cases": [
+        { "when": "j <= h", "tau": "021" },
+        { "when": "j = h + 1", "tau": "120" },
+        { "when": "j = m - 2 and m ≡ 0 (mod 4)", "tau": "012" },
+        { "when": "j = m - 2 and m ≡ 2 (mod 4)", "tau": "102" },
+        { "when": "j = m - 1 and m ≡ 0 (mod 4)", "tau": "201" },
+        { "when": "j = m - 1 and m ≡ 2 (mod 4)", "tau": "021" },
+        { "when": "otherwise", "tau": "012" }
+      ]
+    },
+    {
+      "row": "i = h - 1",
+      "cases": [
+        { "when": "j <= h - 1", "tau": "021" },
+        { "when": "j = h", "tau": "120" },
+        { "when": "h + 1 <= j <= m - 3", "tau": "021" },
+        { "when": "j = m - 2 and m ≡ 0 (mod 4)", "tau": "021" },
+        { "when": "j = m - 2 and m ≡ 2 (mod 4)", "tau": "201" },
+        { "when": "j = m - 1 and m ≡ 0 (mod 4)", "tau": "201" },
+        { "when": "j = m - 1 and m ≡ 2 (mod 4)", "tau": "021" }
+      ]
+    },
+    {
+      "row": "i = h",
+      "cases": [
+        { "when": "j <= h - 2", "tau": "021" },
+        { "when": "j = h - 1", "tau": "120" },
+        { "when": "h <= j <= m - 3", "tau": "021" },
+        { "when": "j = m - 2 and m ≡ 0 (mod 4)", "tau": "021" },
+        { "when": "j = m - 2 and m ≡ 2 (mod 4)", "tau": "201" },
+        { "when": "j = m - 1 and m ≡ 0 (mod 4)", "tau": "201" },
+        { "when": "j = m - 1 and m ≡ 2 (mod 4)", "tau": "021" }
+      ]
+    },
+    {
+      "row": "i = h + 1",
+      "cases": [
+        { "when": "j <= h - 3", "tau": "012" },
+        { "when": "j = h - 2", "tau": "102" },
+        { "when": "h - 1 <= j <= m - 3", "tau": "021" },
+        { "when": "j = m - 2 and m ≡ 0 (mod 4)", "tau": "120" },
+        { "when": "j = m - 2 and m ≡ 2 (mod 4)", "tau": "210" },
+        { "when": "j = m - 1", "tau": "012" }
+      ]
+    },
+    {
+      "row": "h + 2 <= i <= m - 1",
+      "cases": [
+        { "when": "j = m - 1 - i", "tau": "102" },
+        { "when": "j = m - 2", "tau": "210" },
+        { "when": "otherwise", "tau": "012" }
+      ]
+    }
+  ],
+  "notes": [
+    "This artifact is intentionally a textual-guard encoding, not yet an executable evaluator.",
+    "Its role is auditability and traceability from the canonical PDF source to later implementation artifacts.",
+    "A later step may normalize these guards into executable predicates or a generated lookup procedure."
+  ]
+}
