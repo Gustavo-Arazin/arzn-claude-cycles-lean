@@ -1,70 +1,73 @@
-# Project State — Claude Cycles / ARZN
+# Project State — Claude Cycles / ARZN 
 
-## Current baseline
-- Paper version: ARZN_paper_claude_cycles_m_par_v6_M3.docx
-- Repo status: CI green
-- Lean milestone completed: M2e
-- Current phase: M3 canonical even rule
+## Current baseline 
+- Paper version: [substituir pelo nome exato do docx atual] 
+- Repo status: CI green 
+- Current phase: M3 canonical even rule 
+- Last green commit: 82b83c8 
+- Last repo fix: removed corrupted `lake-manifest.json` 
 
-## Completed milestones
-- M0: Lean scaffold
-- M1: torus, fibers, and fiber shift
-- M2a: return map and fiber preservation
-- M2b: orbit algebra and block decomposition
-- M2c: factorization from F0 into return iterates plus residual displacement
-- M2d: partial global lift from return reachability in F0
-- M2e: conditional strong reduction from return coverage to global reachability
+## Completed milestones 
+- M0: Lean scaffold 
+- M1: torus, fibers, and fiber shift 
+- M2a: return map and fiber preservation 
+- M2b: orbit algebra and block decomposition 
+- M2c: factorization from `F0` into return iterates plus residual displacement 
+- M2d: partial global lift from return reachability in `F0` 
+- M2e: conditional strong reduction from return coverage to global reachability 
 
-## Canonical sources locked
-- Odd canonical source: Claude’s Cycles
-- Even canonical source: A proof for the even closed-form rule in Claude’s Cycles
-- Alternative odd source: An Alternative Hamiltonian Decomposition of the Three-Dimensional Torus Digraph
+## Canonical sources locked 
+- Odd canonical source: `Claude’s Cycles` 
+- Even canonical source: `A proof for the even closed-form rule in Claude’s Cycles` 
+- Alternative odd source: `An Alternative Hamiltonian Decomposition of the Three-Dimensional Torus Digraph` 
 
-## Current paper architecture
-- Main paper structure stabilized
-- Appendix B contains Lean milestones
-- Appendix C reserved for canonical rule tables and case splits
+## Spec artifacts already created 
+- `spec/even_closed_form_source.md` 
+- `spec/tau_layer_m_minus_2_table.md` 
+- `spec/tau_layer_m_minus_2_cases.json` 
+- `spec/even_rule_evaluator.md` 
 
-## Current theorem boundary
-- Structural abstract reduction layer: validated in Lean
-- Canonical even rule: frozen in the paper as source of truth
-- Machine-readable tau(i,j) table: not yet created
-- EvenRule Lean formalization: not yet started
-- Residual normal form for the canonical even rule: not yet proven
-- Final Hamiltonicity closure for the canonical even rule: not yet proven in Lean
+## Lean artifacts already created 
+- `ClaudeCyclesARZN/EvenRule.lean` 
+- `ClaudeCyclesARZN/EvenRuleFacts.lean` 
+- `ClaudeCyclesARZN/EvenExceptionalFibers.lean` 
 
-## Open mathematical targets
-- Freeze Appendix A tau(i,j) into a canonical machine-readable artifact
-- Create:
-  - spec/even_closed_form_source.md
-  - spec/tau_layer_m_minus_2_table.md
-- Prepare EvenRule Lean skeleton
-- Prove the residual normal form hypothesis for the canonical even rule
-- Connect the canonical even rule to the strong reduction framework
-- Advance toward Hamiltonicity closure in Lean
+## Entry-point imports already updated 
+- `ClaudeCyclesARZN.lean` already imports: 
+- `EvenRule` - `EvenRuleFacts` 
+- `EvenExceptionalFibers` 
 
-## Next exact step
-- Build canonical specification artifacts for the even closed-form rule
-- Then prepare the first EvenRule implementation layer
+## Infrastructure note 
+- The previous `lake-manifest.json` in `ClaudeCyclesARZN_Lean_M0/` was corrupted and was removed. 
+- CI turned green after removing it. 
+- Do not reintroduce `lake-manifest.json` manually. 
 
-## Most recent confirmed status
-- Docx reorganized into fixed final architecture
-- Claim Log updated, including C4a and C4b
-- CI green after StrongReduction.lean
-- M3 source-of-truth section inserted into Appendix B
-- Appendix C reserved for tau(i,j)
+## Current theorem boundary 
+- Structural abstract reduction layer: validated in Lean 
+- Canonical even rule: frozen as source of truth 
+- Machine-readable `tau(i,j)` table: created 
+- Canonical evaluator semantics: created 
+- Even-rule Lean skeleton: created 
+- Branch lemmas for the even rule: created 
+- Exceptional-fiber bridge: created 
+- Residual-support bridge: not yet created 
+- Residual normal form shell: not yet created - Final Hamiltonicity closure for the canonical even rule: not yet proven in Lean 
 
-## Files most recently changed
-- docx: ARZN_paper_claude_cycles_m_par_v6_M3.docx
-- Lean: StrongReduction.lean
-- entrypoint updated accordingly
-- CI workflow passing
+## Exact next step Create: 
+- `ClaudeCyclesARZN_Lean_M0/ClaudeCyclesARZN/EvenResidualSupport.lean` Then add to: 
+- `ClaudeCyclesARZN_Lean_M0/ClaudeCyclesARZN.lean` the import: 
+- `import ClaudeCyclesARZN.EvenResidualSupport` 
 
-## Working rule
-When continuing in a new chat, use this file together with:
-1. the latest docx
-2. the current CI status
-3. the name of the current milestone
+## What the next step must do The next file should formalize the bridge: 
+- residual support = exceptional fibers - outside residual support, the even rule is trivial (`012`) 
+- on residual support, the rule is exactly the controlled nontrivial behavior 
+- this is the preparatory shell before the residual normal form layer 
 
-## Current checkpoint tag suggestion
-- v6-m3-baseline
+## Paper / docx policy at this checkpoint 
+- No docx update is required for the micro-step `EvenResidualSupport` 
+- The next docx update should happen only after the next stable Lean checkpoint is green 
+
+## Working rule for next chat In the next chat: 1. trust this file as source of truth 2. do not revisit GitHub configuration 3. do not revisit M0/M1/M2 unless a new CI error forces it 4. continue exactly from the next file: `EvenResidualSupport.lean` 
+
+## Suggested checkpoint label 
+- `v6-m3-pre-residual-support` ```
