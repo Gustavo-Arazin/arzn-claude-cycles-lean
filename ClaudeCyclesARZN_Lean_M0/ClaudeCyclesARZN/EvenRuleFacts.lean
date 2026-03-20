@@ -15,28 +15,26 @@ theorem evenRuleCode_of_eq_msub1
     (hs : fiberSum m i j k = m - 1) :
     evenRuleCode m i j k =
       (if i = half m - 1 ∨ i = half m then LocalPerm.p210 else LocalPerm.p120) := by
-  rcases hm with ⟨hm8, _⟩
-  have hnot : ¬ fiberSum m i j k ≤ m - 3 := by
-    rw [hs]
-    omega
+  rcases hm with ⟨hm8, hEven⟩
   unfold evenRuleCode
-  simp [hnot, hs]
+  rw [hs]
+  have hlt : ¬ (m - 1 ≤ m - 3) := by
+    omega
+  simp [hlt]
 
 theorem evenRuleCode_of_eq_msub2
     (m i j k : Nat)
     (hm : admissibleEvenM m)
     (hs : fiberSum m i j k = m - 2) :
     evenRuleCode m i j k = tauLayerCode m i j := by
-  rcases hm with ⟨hm8, _⟩
-  have hnot_le : ¬ fiberSum m i j k ≤ m - 3 := by
-    rw [hs]
-    omega
-  have hneq : fiberSum m i j k ≠ m - 1 := by
-    intro hEq
-    rw [hs] at hEq
-    omega
+  rcases hm with ⟨hm8, hEven⟩
   unfold evenRuleCode
-  simp [hnot_le, hneq, hs]
+  rw [hs]
+  have hlt : ¬ (m - 2 ≤ m - 3) := by
+    omega
+  have hneq : ¬ (m - 2 = m - 1) := by
+    omega
+  simp [hlt, hneq]
 
 theorem isExceptionalFiber_of_eq_msub2
     (m s : Nat)
