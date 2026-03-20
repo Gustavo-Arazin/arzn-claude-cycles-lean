@@ -6,20 +6,37 @@ theorem evenRuleCode_of_le_msub3
     (m i j k : Nat)
     (h : fiberSum m i j k ≤ m - 3) :
     evenRuleCode m i j k = LocalPerm.p012 := by
-  simp [evenRuleCode, h]
+  unfold evenRuleCode
+  simp [h]
 
 theorem evenRuleCode_of_eq_msub1
     (m i j k : Nat)
+    (hm : admissibleEvenM m)
     (hs : fiberSum m i j k = m - 1) :
     evenRuleCode m i j k =
       (if i = half m - 1 ∨ i = half m then LocalPerm.p210 else LocalPerm.p120) := by
-  simp [evenRuleCode, hs]
+  rcases hm with ⟨hm8, _⟩
+  have hnot : ¬ fiberSum m i j k ≤ m - 3 := by
+    rw [hs]
+    omega
+  unfold evenRuleCode
+  simp [hnot, hs]
 
 theorem evenRuleCode_of_eq_msub2
     (m i j k : Nat)
+    (hm : admissibleEvenM m)
     (hs : fiberSum m i j k = m - 2) :
     evenRuleCode m i j k = tauLayerCode m i j := by
-  simp [evenRuleCode, hs]
+  rcases hm with ⟨hm8, _⟩
+  have hnot_le : ¬ fiberSum m i j k ≤ m - 3 := by
+    rw [hs]
+    omega
+  have hneq : fiberSum m i j k ≠ m - 1 := by
+    intro hEq
+    rw [hs] at hEq
+    omega
+  unfold evenRuleCode
+  simp [hnot_le, hneq, hs]
 
 theorem isExceptionalFiber_of_eq_msub2
     (m s : Nat)
@@ -32,25 +49,5 @@ theorem isExceptionalFiber_of_eq_msub1
     (hs : s = m - 1) :
     isExceptionalFiber m s = true := by
   simp [isExceptionalFiber, hs]
-
-theorem tauLayerCode_row0_msub2
-    (m : Nat) :
-    tauLayerCode m 0 (m - 2) = LocalPerm.p210 := by
-  simp [tauLayerCode, half]
-
-theorem tauLayerCode_row0_msub1
-    (m : Nat) :
-    tauLayerCode m 0 (m - 1) = LocalPerm.p102 := by
-  simp [tauLayerCode, half]
-
-theorem tauLayerCode_row1_msub2
-    (m : Nat) :
-    tauLayerCode m 1 (m - 2) = LocalPerm.p201 := by
-  simp [tauLayerCode, half]
-
-theorem tauLayerCode_row1_msub1
-    (m : Nat) :
-    tauLayerCode m 1 (m - 1) = LocalPerm.p210 := by
-  simp [tauLayerCode, half]
 
 end ClaudeCyclesARZN
