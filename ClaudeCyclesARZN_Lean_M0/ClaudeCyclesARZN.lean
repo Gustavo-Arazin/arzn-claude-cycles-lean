@@ -7,6 +7,7 @@ import ClaudeCyclesARZN.EvenResidualSupport
 import ClaudeCyclesARZN.EvenResidualNormalForm
 import ClaudeCyclesARZN.EvenRuleLocalRule
 import ClaudeCyclesARZN.EvenRuleLocalRuleFacts
+import ClaudeCyclesARZN.EvenRuleLocalResidualNormalForm
 import ClaudeCyclesARZN.ReturnMap
 import ClaudeCyclesARZN.Reduction
 import ClaudeCyclesARZN.Orbit
