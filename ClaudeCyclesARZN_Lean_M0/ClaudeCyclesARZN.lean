@@ -17,3 +17,4 @@ import ClaudeCyclesARZN.GlobalLift
 import ClaudeCyclesARZN.StrongReduction
 import ClaudeCyclesARZN.ResidualNormalFormBridge
 import ClaudeCyclesARZN.EvenRuleStrongReduction
+import ClaudeCyclesARZN.EvenRuleWitnessTargets
