@@ -1,15 +1,16 @@
- import ClaudeCyclesARZN.Core
- import ClaudeCyclesARZN.Torus
- import ClaudeCyclesARZN.Fiber
- import ClaudeCyclesARZN.EvenRule
- import ClaudeCyclesARZN.EvenRuleFacts
- import ClaudeCyclesARZN.EvenResidualSupport
- import ClaudeCyclesARZN.EvenResidualNormalForm
- import ClaudeCyclesARZN.ReturnMap
- import ClaudeCyclesARZN.Reduction
- import ClaudeCyclesARZN.Orbit
- import ClaudeCyclesARZN.ReturnIterates
- import ClaudeCyclesARZN.FiberSlices
- import ClaudeCyclesARZN.GlobalLift
- import ClaudeCyclesARZN.StrongReduction
- import ClaudeCyclesARZN.ResidualNormalFormBridge
+import ClaudeCyclesARZN.Core
+import ClaudeCyclesARZN.Torus
+import ClaudeCyclesARZN.Fiber
+import ClaudeCyclesARZN.EvenRule
+import ClaudeCyclesARZN.EvenRuleFacts
+import ClaudeCyclesARZN.EvenResidualSupport
+import ClaudeCyclesARZN.EvenResidualNormalForm
+import ClaudeCyclesARZN.EvenRuleLocalRule
+import ClaudeCyclesARZN.ReturnMap
+import ClaudeCyclesARZN.Reduction
+import ClaudeCyclesARZN.Orbit
+import ClaudeCyclesARZN.ReturnIterates
+import ClaudeCyclesARZN.FiberSlices
+import ClaudeCyclesARZN.GlobalLift
+import ClaudeCyclesARZN.StrongReduction
+import ClaudeCyclesARZN.ResidualNormalFormBridge
