@@ -12,3 +12,4 @@
  import ClaudeCyclesARZN.FiberSlices
  import ClaudeCyclesARZN.GlobalLift
  import ClaudeCyclesARZN.StrongReduction
+ import ClaudeCyclesARZN.ResidualNormalFormBridge
