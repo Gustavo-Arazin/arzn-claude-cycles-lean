@@ -1,17 +1,18 @@
+import ClaudeCyclesARZN.Torus
 import ClaudeCyclesARZN.EvenResidualNormalForm
 
 namespace ClaudeCyclesARZN
 
 /--
 Interpret a local permutation code as the axis chosen by a given color.
-The convention is:
-- `0 ↦ x`
-- `1 ↦ y`
-- `2 ↦ z`
-and the permutation code reorders these three axes.
+
+Convention:
+- color 0 reads the first position of the permutation;
+- color 1 reads the second position;
+- color 2 reads the third position.
 -/
 def axisOfLocalPerm (p : LocalPerm) (c : Color) : Axis :=
-  match p, c.1 with
+  match p, c.val with
   | .p012, 0 => Axis.x
   | .p012, 1 => Axis.y
   | .p012, _ => Axis.z
@@ -38,8 +39,8 @@ def evenRuleAxis (m i j k : Nat) (c : Color) : Axis :=
 /--
 Concrete `LocalRule` induced by the canonical even rule.
 
-It reads the `ZMod m` coordinates of a vertex through their canonical representatives
-in `{0, …, m-1}` and then applies `evenRuleCode`.
+It reads the `ZMod m` coordinates of a vertex via their canonical representatives
+in `{0, ..., m-1}` and then applies `evenRuleCode`.
 -/
 def evenRuleLocalRule (m : Nat) : LocalRule m :=
   fun v c => evenRuleAxis m v.1.val v.2.1.val v.2.2.val c
@@ -55,42 +56,5 @@ def evenRuleLocalRule (m : Nat) : LocalRule m :=
     evenRuleLocalRule m (i, j, k) c =
       evenRuleAxis m i.val j.val k.val c := by
   rfl
-
-theorem evenRuleAxis_of_le_msub3
-    (m i j k : Nat) (c : Color)
-    (h : fiberSum m i j k ≤ m - 3) :
-    evenRuleAxis m i j k c = axisOfLocalPerm LocalPerm.p012 c := by
-  unfold evenRuleAxis
-  rw [evenRuleCode_of_le_msub3 m i j k h]
-
-theorem evenRuleAxis_of_not_residualSupport
-    (m i j k : Nat)
-    (hm : admissibleEvenM m)
-    (c : Color)
-    (hfalse : residualSupport m i j k = false) :
-    evenRuleAxis m i j k c = axisOfLocalPerm LocalPerm.p012 c := by
-  have hs : fiberSum m i j k ≤ m - 3 :=
-    fiberSum_le_msub3_of_not_residualSupport m i j k hm hfalse
-  exact evenRuleAxis_of_le_msub3 m i j k c hs
-
-theorem evenRuleAxis_of_eq_msub2
-    (m i j k : Nat)
-    (hm : admissibleEvenM m)
-    (c : Color)
-    (hs : fiberSum m i j k = m - 2) :
-    evenRuleAxis m i j k c = axisOfLocalPerm (tauLayerCode m i j) c := by
-  unfold evenRuleAxis
-  rw [evenRuleCode_of_eq_msub2 m i j k hm hs]
-
-theorem evenRuleAxis_of_eq_msub1
-    (m i j k : Nat)
-    (hm : admissibleEvenM m)
-    (c : Color)
-    (hs : fiberSum m i j k = m - 1) :
-    evenRuleAxis m i j k c =
-      axisOfLocalPerm
-        (if i = half m - 1 ∨ i = half m then LocalPerm.p210 else LocalPerm.p120) c := by
-  unfold evenRuleAxis
-  rw [evenRuleCode_of_eq_msub1 m i j k hm hs]
 
 end ClaudeCyclesARZN
