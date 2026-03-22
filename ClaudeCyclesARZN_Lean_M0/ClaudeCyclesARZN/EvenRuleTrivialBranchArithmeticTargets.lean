@@ -4,11 +4,11 @@ namespace ClaudeCyclesARZN
 
 /--
 Arithmetic bound for the trivial branch:
-the target fiber index is at most `m - 3`.
+the target nat-level fiber sum is at most `m - 3`.
 -/
 def trivialBranchTargetBoundAt
     (m : Nat) (z : VZ m) : Prop :=
-  (fiberIndex z).val ≤ m - 3
+  vertexFiberSum m z ≤ m - 3
 
 /--
 Arithmetic tracking target for the trivial branch:
@@ -24,7 +24,7 @@ def trivialBranchPrefixFiberTrackingAt
 
 /--
 If the pure `012` prefix has nat-level fiber sum exactly `t` at time `t`,
-and the target fiber index is bounded by `m - 3`,
+and the target lies in the trivial region `≤ m - 3`,
 then the whole relevant prefix stays outside the residual support.
 -/
 theorem trivialBranchPrefixOutsideResidualAt_of_tracking_and_bound
@@ -48,7 +48,7 @@ theorem trivialBranchPrefixOutsideResidualAt_of_tracking_and_bound
 /--
 Packaged arithmetic target for the trivial branch:
 for every color and every target in the trivial region, it is enough to provide
-- the bound `(fiberIndex z).val ≤ m - 3`,
+- the bound `vertexFiberSum m z ≤ m - 3`,
 - and the prefix tracking property for `fiberSum`.
 -/
 def CanonicalEvenTrivialBranchArithmeticTargets (m : Nat) : Prop :=
