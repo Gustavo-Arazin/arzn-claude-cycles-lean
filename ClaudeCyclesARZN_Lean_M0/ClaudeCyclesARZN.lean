@@ -22,3 +22,4 @@ import ClaudeCyclesARZN.EvenRuleWitnessByCases
 import ClaudeCyclesARZN.EvenRuleWitnessObligations
 import ClaudeCyclesARZN.EvenRuleWitnessCandidates
 import ClaudeCyclesARZN.Pure012WitnessDynamics
+import ClaudeCyclesARZN.Pure012WitnessHits
