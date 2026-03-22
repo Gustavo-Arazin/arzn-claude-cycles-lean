@@ -26,3 +26,4 @@ import ClaudeCyclesARZN.Pure012WitnessHits
 import ClaudeCyclesARZN.EvenRuleTrivialWitnessBridge
 import ClaudeCyclesARZN.EvenRuleCompletionTargets
 import ClaudeCyclesARZN.EvenRuleTrivialBranchReduction
+import ClaudeCyclesARZN.EvenRuleTrivialBranchOutsideResidual
