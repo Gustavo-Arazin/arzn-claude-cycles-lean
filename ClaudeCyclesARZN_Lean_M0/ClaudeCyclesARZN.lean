@@ -27,3 +27,4 @@ import ClaudeCyclesARZN.EvenRuleTrivialWitnessBridge
 import ClaudeCyclesARZN.EvenRuleCompletionTargets
 import ClaudeCyclesARZN.EvenRuleTrivialBranchReduction
 import ClaudeCyclesARZN.EvenRuleTrivialBranchOutsideResidual
+import ClaudeCyclesARZN.EvenRuleTrivialBranchArithmeticTargets
