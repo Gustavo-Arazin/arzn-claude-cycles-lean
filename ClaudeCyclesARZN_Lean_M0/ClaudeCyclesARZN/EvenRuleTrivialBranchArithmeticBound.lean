@@ -18,10 +18,11 @@ theorem fiberIndex_val_eq_vertexFiberSum
       (i + j + k : ZMod m).val =
       ((((i.val + j.val + k.val : Nat)) : ZMod m)).val := by
     exact congrArg ZMod.val hcast
-  rw [show ((((i.val + j.val + k.val : Nat)) : ZMod m)).val =
-      (i.val + j.val + k.val) % m by
-        simp] at hval
-  exact hval
+  have hnat :
+      ((((i.val + j.val + k.val : Nat)) : ZMod m)).val =
+      (i.val + j.val + k.val) % m := by
+    simp
+  exact hval.trans hnat
 
 theorem trivialBranchTargetBoundAt_of_vertexFiberSum_le_msub3
     (m : Nat) (hm : admissibleEvenM m) (z : VZ m)
