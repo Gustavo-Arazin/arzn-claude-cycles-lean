@@ -19,3 +19,4 @@ import ClaudeCyclesARZN.ResidualNormalFormBridge
 import ClaudeCyclesARZN.EvenRuleStrongReduction
 import ClaudeCyclesARZN.EvenRuleWitnessTargets
 import ClaudeCyclesARZN.EvenRuleWitnessByCases
+import ClaudeCyclesARZN.EvenRuleWitnessObligations
