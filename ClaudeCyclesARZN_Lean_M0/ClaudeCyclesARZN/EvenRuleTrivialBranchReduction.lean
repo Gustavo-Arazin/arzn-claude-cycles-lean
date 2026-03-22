@@ -1,4 +1,4 @@
-import ClaudeCyclesARZN.EvenRuleTrivialWitnessBridge
+import ClaudeCyclesARZN.EvenRuleCompletionTargets
 
 namespace ClaudeCyclesARZN
 
