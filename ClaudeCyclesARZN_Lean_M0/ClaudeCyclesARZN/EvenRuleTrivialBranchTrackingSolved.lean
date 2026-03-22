@@ -13,7 +13,9 @@ theorem trivialBranchPrefixFiberTrackingColor0Arithmetic_all
   have hEqNatCast :
       ((fiberSum m (i - (i + j + k) + t).val j.val k.val : Nat) : ZMod m) = (t : ZMod m) := by
     unfold fiberSum
-    rw [Nat.cast_mod]
+    rw [show ((((i - (i + j + k) + t).val + j.val + k.val) % m : Nat) : ZMod m) =
+        ((((i - (i + j + k) + t).val + j.val + k.val : Nat)) : ZMod m) by
+          simp]
     rw [← ZMod.natCast_zmod_val (i - (i + j + k) + t)]
     rw [← ZMod.natCast_zmod_val j]
     rw [← ZMod.natCast_zmod_val k]
@@ -40,7 +42,9 @@ theorem trivialBranchPrefixFiberTrackingColor1Arithmetic_all
   have hEqNatCast :
       ((fiberSum m i.val (j - (i + j + k) + t).val k.val : Nat) : ZMod m) = (t : ZMod m) := by
     unfold fiberSum
-    rw [Nat.cast_mod]
+    rw [show (((i.val + (j - (i + j + k) + t).val + k.val) % m : Nat) : ZMod m) =
+        (((i.val + (j - (i + j + k) + t).val + k.val : Nat)) : ZMod m) by
+          simp]
     rw [← ZMod.natCast_zmod_val i]
     rw [← ZMod.natCast_zmod_val (j - (i + j + k) + t)]
     rw [← ZMod.natCast_zmod_val k]
@@ -67,7 +71,9 @@ theorem trivialBranchPrefixFiberTrackingColor2Arithmetic_all
   have hEqNatCast :
       ((fiberSum m i.val j.val (k - (i + j + k) + t).val : Nat) : ZMod m) = (t : ZMod m) := by
     unfold fiberSum
-    rw [Nat.cast_mod]
+    rw [show (((i.val + j.val + (k - (i + j + k) + t).val) % m : Nat) : ZMod m) =
+        (((i.val + j.val + (k - (i + j + k) + t).val : Nat)) : ZMod m) by
+          simp]
     rw [← ZMod.natCast_zmod_val i]
     rw [← ZMod.natCast_zmod_val j]
     rw [← ZMod.natCast_zmod_val (k - (i + j + k) + t)]
