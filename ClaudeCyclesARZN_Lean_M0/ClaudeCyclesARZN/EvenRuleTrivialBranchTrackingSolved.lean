@@ -12,15 +12,22 @@ theorem trivialBranchPrefixFiberTrackingColor0Arithmetic_all
     exact Nat.lt_trans ht (by simpa [fiberIndex] using (ZMod.val_lt (i + j + k : ZMod m)))
   have hEqNatCast :
       ((fiberSum m (i - (i + j + k) + (t : ZMod m)).val j.val k.val : Nat) : ZMod m) = (t : ZMod m) := by
-    unfold fiberSum
-    rw [show ((((i - (i + j + k) + (t : ZMod m)).val + j.val + k.val) % m : Nat) : ZMod m) =
-        ((((i - (i + j + k) + (t : ZMod m)).val + j.val + k.val : Nat)) : ZMod m) by
-          simp]
-    rw [← ZMod.natCast_zmod_val (i - (i + j + k) + (t : ZMod m))]
-    rw [← ZMod.natCast_zmod_val j]
-    rw [← ZMod.natCast_zmod_val k]
-    change i - (i + j + k) + (t : ZMod m) + j + k = (t : ZMod m)
-    ring
+    calc
+      ((fiberSum m (i - (i + j + k) + (t : ZMod m)).val j.val k.val : Nat) : ZMod m)
+          =
+      ((((i - (i + j + k) + (t : ZMod m)).val + j.val + k.val : Nat)) : ZMod m) := by
+            simp [fiberSum]
+      _ =
+      ((((i - (i + j + k) + (t : ZMod m)).val : Nat) : ZMod m) +
+        ((j.val : Nat) : ZMod m) +
+        ((k.val : Nat) : ZMod m)) := by
+            simp [Nat.cast_add, add_assoc]
+      _ = i - (i + j + k) + (t : ZMod m) + j + k := by
+            rw [ZMod.natCast_zmod_val (i - (i + j + k) + (t : ZMod m)),
+                ZMod.natCast_zmod_val j,
+                ZMod.natCast_zmod_val k]
+      _ = (t : ZMod m) := by
+            ring
   have hleftlt : fiberSum m (i - (i + j + k) + (t : ZMod m)).val j.val k.val < m := by
     unfold fiberSum
     exact Nat.mod_lt _ (by omega)
@@ -41,15 +48,22 @@ theorem trivialBranchPrefixFiberTrackingColor1Arithmetic_all
     exact Nat.lt_trans ht (by simpa [fiberIndex] using (ZMod.val_lt (i + j + k : ZMod m)))
   have hEqNatCast :
       ((fiberSum m i.val (j - (i + j + k) + (t : ZMod m)).val k.val : Nat) : ZMod m) = (t : ZMod m) := by
-    unfold fiberSum
-    rw [show (((i.val + (j - (i + j + k) + (t : ZMod m)).val + k.val) % m : Nat) : ZMod m) =
-        (((i.val + (j - (i + j + k) + (t : ZMod m)).val + k.val : Nat)) : ZMod m) by
-          simp]
-    rw [← ZMod.natCast_zmod_val i]
-    rw [← ZMod.natCast_zmod_val (j - (i + j + k) + (t : ZMod m))]
-    rw [← ZMod.natCast_zmod_val k]
-    change i + (j - (i + j + k) + (t : ZMod m)) + k = (t : ZMod m)
-    ring
+    calc
+      ((fiberSum m i.val (j - (i + j + k) + (t : ZMod m)).val k.val : Nat) : ZMod m)
+          =
+      (((i.val + (j - (i + j + k) + (t : ZMod m)).val + k.val : Nat)) : ZMod m) := by
+            simp [fiberSum]
+      _ =
+      (((i.val : Nat) : ZMod m) +
+        (((j - (i + j + k) + (t : ZMod m)).val : Nat) : ZMod m) +
+        ((k.val : Nat) : ZMod m)) := by
+            simp [Nat.cast_add, add_assoc]
+      _ = i + (j - (i + j + k) + (t : ZMod m)) + k := by
+            rw [ZMod.natCast_zmod_val i,
+                ZMod.natCast_zmod_val (j - (i + j + k) + (t : ZMod m)),
+                ZMod.natCast_zmod_val k]
+      _ = (t : ZMod m) := by
+            ring
   have hleftlt : fiberSum m i.val (j - (i + j + k) + (t : ZMod m)).val k.val < m := by
     unfold fiberSum
     exact Nat.mod_lt _ (by omega)
@@ -70,15 +84,22 @@ theorem trivialBranchPrefixFiberTrackingColor2Arithmetic_all
     exact Nat.lt_trans ht (by simpa [fiberIndex] using (ZMod.val_lt (i + j + k : ZMod m)))
   have hEqNatCast :
       ((fiberSum m i.val j.val (k - (i + j + k) + (t : ZMod m)).val : Nat) : ZMod m) = (t : ZMod m) := by
-    unfold fiberSum
-    rw [show (((i.val + j.val + (k - (i + j + k) + (t : ZMod m)).val) % m : Nat) : ZMod m) =
-        (((i.val + j.val + (k - (i + j + k) + (t : ZMod m)).val : Nat)) : ZMod m) by
-          simp]
-    rw [← ZMod.natCast_zmod_val i]
-    rw [← ZMod.natCast_zmod_val j]
-    rw [← ZMod.natCast_zmod_val (k - (i + j + k) + (t : ZMod m))]
-    change i + j + (k - (i + j + k) + (t : ZMod m)) = (t : ZMod m)
-    ring
+    calc
+      ((fiberSum m i.val j.val (k - (i + j + k) + (t : ZMod m)).val : Nat) : ZMod m)
+          =
+      (((i.val + j.val + (k - (i + j + k) + (t : ZMod m)).val : Nat)) : ZMod m) := by
+            simp [fiberSum]
+      _ =
+      (((i.val : Nat) : ZMod m) +
+        ((j.val : Nat) : ZMod m) +
+        (((k - (i + j + k) + (t : ZMod m)).val : Nat) : ZMod m)) := by
+            simp [Nat.cast_add, add_assoc]
+      _ = i + j + (k - (i + j + k) + (t : ZMod m)) := by
+            rw [ZMod.natCast_zmod_val i,
+                ZMod.natCast_zmod_val j,
+                ZMod.natCast_zmod_val (k - (i + j + k) + (t : ZMod m))]
+      _ = (t : ZMod m) := by
+            ring
   have hleftlt : fiberSum m i.val j.val (k - (i + j + k) + (t : ZMod m)).val < m := by
     unfold fiberSum
     exact Nat.mod_lt _ (by omega)
