@@ -9,13 +9,19 @@ theorem fiberIndex_val_eq_vertexFiberSum
     rcases hm with ⟨hm8, _⟩
     omega⟩
   rcases z with ⟨i, j, k⟩
+  unfold vertexFiberSum fiberSum fiberIndex
   have hcast :
       (i + j + k : ZMod m) = (((i.val + j.val + k.val : Nat)) : ZMod m) := by
     rw [← ZMod.natCast_zmod_val i, ← ZMod.natCast_zmod_val j, ← ZMod.natCast_zmod_val k]
     simp [Nat.cast_add, add_assoc]
-  have hval : (i + j + k : ZMod m).val = ((((i.val + j.val + k.val : Nat)) : ZMod m)).val := by
+  have hval :
+      (i + j + k : ZMod m).val =
+      ((((i.val + j.val + k.val : Nat)) : ZMod m)).val := by
     exact congrArg ZMod.val hcast
-  simpa [vertexFiberSum, fiberSum, fiberIndex] using hval
+  rw [show ((((i.val + j.val + k.val : Nat)) : ZMod m)).val =
+      (i.val + j.val + k.val) % m by
+        simp] at hval
+  exact hval
 
 theorem trivialBranchTargetBoundAt_of_vertexFiberSum_le_msub3
     (m : Nat) (hm : admissibleEvenM m) (z : VZ m)
