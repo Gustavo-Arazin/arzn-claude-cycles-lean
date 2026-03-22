@@ -23,3 +23,4 @@ import ClaudeCyclesARZN.EvenRuleWitnessObligations
 import ClaudeCyclesARZN.EvenRuleWitnessCandidates
 import ClaudeCyclesARZN.Pure012WitnessDynamics
 import ClaudeCyclesARZN.Pure012WitnessHits
+import ClaudeCyclesARZN.EvenRuleTrivialWitnessBridge
