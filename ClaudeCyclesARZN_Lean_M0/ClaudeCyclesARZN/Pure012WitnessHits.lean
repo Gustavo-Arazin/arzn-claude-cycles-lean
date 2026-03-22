@@ -24,8 +24,7 @@ theorem pure012CandidateHits_color0
   unfold pure012CandidateHits
   rw [residualMapFromFiberZero_val]
   ext <;>
-    simp [canonicalEvenWitnessCandidate, fiberIndex,
-      succPow_pure012_color0, ZMod.natCast_zmod_val]
+    simp [canonicalEvenWitnessCandidate, fiberIndex, succPow_pure012_color0]
 
 theorem pure012CandidateHits_color1
     (m : Nat) (hm : admissibleEvenM m) (z : VZ m) :
@@ -35,8 +34,8 @@ theorem pure012CandidateHits_color1
   unfold pure012CandidateHits
   rw [residualMapFromFiberZero_val]
   ext <;>
-    simp [canonicalEvenWitnessCandidate, fiberIndex,
-      succPow_pure012_color1, ZMod.natCast_zmod_val]
+    simp [canonicalEvenWitnessCandidate, fiberIndex, succPow_pure012_color1]
+  ring
 
 theorem pure012CandidateHits_color2
     (m : Nat) (hm : admissibleEvenM m) (z : VZ m) :
@@ -46,8 +45,7 @@ theorem pure012CandidateHits_color2
   unfold pure012CandidateHits
   rw [residualMapFromFiberZero_val]
   ext <;>
-    simp [canonicalEvenWitnessCandidate, fiberIndex,
-      succPow_pure012_color2, ZMod.natCast_zmod_val]
+    simp [canonicalEvenWitnessCandidate, fiberIndex, succPow_pure012_color2]
 
 theorem pure012CandidateHits_allColors
     (m : Nat) (hm : admissibleEvenM m) (c : Color) (z : VZ m) :
