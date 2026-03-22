@@ -13,8 +13,9 @@ theorem fiberIndex_val_eq_vertexFiberSum
       (i + j + k : ZMod m) = (((i.val + j.val + k.val : Nat)) : ZMod m) := by
     rw [← ZMod.natCast_zmod_val i, ← ZMod.natCast_zmod_val j, ← ZMod.natCast_zmod_val k]
     simp [Nat.cast_add, add_assoc]
-  exact congrArg ZMod.val hcast |> by
-    simpa [vertexFiberSum, fiberSum, fiberIndex]
+  have hval : (i + j + k : ZMod m).val = ((((i.val + j.val + k.val : Nat)) : ZMod m)).val := by
+    exact congrArg ZMod.val hcast
+  simpa [vertexFiberSum, fiberSum, fiberIndex] using hval
 
 theorem trivialBranchTargetBoundAt_of_vertexFiberSum_le_msub3
     (m : Nat) (hm : admissibleEvenM m) (z : VZ m)
