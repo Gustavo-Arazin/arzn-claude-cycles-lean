@@ -38,7 +38,8 @@ def pure012LocalRule (m : Nat) : LocalRule m :=
   | zero =>
       simp [succPow]
   | succ n ih =>
-      simp [succPow, ih, Nat.cast_add, add_assoc]
+      rw [succPow_succ, succ_pure012_color0, ih]
+      ext <;> simp [bumpX, bump, Nat.cast_add, add_assoc]
 
 @[simp] theorem succPow_pure012_color1
     (m : Nat) (n : Nat) (i j k : ZMod m) :
@@ -47,7 +48,8 @@ def pure012LocalRule (m : Nat) : LocalRule m :=
   | zero =>
       simp [succPow]
   | succ n ih =>
-      simp [succPow, ih, Nat.cast_add, add_assoc]
+      rw [succPow_succ, succ_pure012_color1, ih]
+      ext <;> simp [bumpY, bump, Nat.cast_add, add_assoc]
 
 @[simp] theorem succPow_pure012_color2
     (m : Nat) (n : Nat) (i j k : ZMod m) :
@@ -56,58 +58,7 @@ def pure012LocalRule (m : Nat) : LocalRule m :=
   | zero =>
       simp [succPow]
   | succ n ih =>
-      simp [succPow, ih, Nat.cast_add, add_assoc]
-
-theorem canonicalEvenCandidateHits_pure012_color0
-    (m : Nat) (z : VZ m) :
-    (residualMapFromFiberZero
-        (pure012LocalRule m) (0 : Color) (fiberIndex z).val
-        (canonicalEvenWitnessCandidate m (0 : Color) z)).1 = z := by
-  rcases z with ⟨i, j, k⟩
-  rw [residualMapFromFiberZero_val]
-  ext <;> simp [canonicalEvenWitnessCandidate, fiberIndex]
-  · calc
-      i - (i + j + k) + (((i + j + k).val : Nat) : ZMod m)
-          = i - (i + j + k) + (i + j + k) := by
-              rw [ZMod.natCast_zmod_val]
-      _ = i := by ring
-
-theorem canonicalEvenCandidateHits_pure012_color1
-    (m : Nat) (z : VZ m) :
-    (residualMapFromFiberZero
-        (pure012LocalRule m) (1 : Color) (fiberIndex z).val
-        (canonicalEvenWitnessCandidate m (1 : Color) z)).1 = z := by
-  rcases z with ⟨i, j, k⟩
-  rw [residualMapFromFiberZero_val]
-  ext <;> simp [canonicalEvenWitnessCandidate, fiberIndex]
-  · calc
-      j - (i + j + k) + (((i + j + k).val : Nat) : ZMod m)
-          = j - (i + j + k) + (i + j + k) := by
-              rw [ZMod.natCast_zmod_val]
-      _ = j := by ring
-
-theorem canonicalEvenCandidateHits_pure012_color2
-    (m : Nat) (z : VZ m) :
-    (residualMapFromFiberZero
-        (pure012LocalRule m) (2 : Color) (fiberIndex z).val
-        (canonicalEvenWitnessCandidate m (2 : Color) z)).1 = z := by
-  rcases z with ⟨i, j, k⟩
-  rw [residualMapFromFiberZero_val]
-  ext <;> simp [canonicalEvenWitnessCandidate, fiberIndex]
-  · calc
-      k - (i + j + k) + (((i + j + k).val : Nat) : ZMod m)
-          = k - (i + j + k) + (i + j + k) := by
-              rw [ZMod.natCast_zmod_val]
-      _ = k := by ring
-
-theorem canonicalEvenCandidateHits_pure012
-    (m : Nat) (c : Color) (z : VZ m) :
-    (residualMapFromFiberZero
-        (pure012LocalRule m) c (fiberIndex z).val
-        (canonicalEvenWitnessCandidate m c z)).1 = z := by
-  fin_cases c
-  · simpa using canonicalEvenCandidateHits_pure012_color0 m z
-  · simpa using canonicalEvenCandidateHits_pure012_color1 m z
-  · simpa using canonicalEvenCandidateHits_pure012_color2 m z
+      rw [succPow_succ, succ_pure012_color2, ih]
+      ext <;> simp [bumpZ, bump, Nat.cast_add, add_assoc]
 
 end ClaudeCyclesARZN
