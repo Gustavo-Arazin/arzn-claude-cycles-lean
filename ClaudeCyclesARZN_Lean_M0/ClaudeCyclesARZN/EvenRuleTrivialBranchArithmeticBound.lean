@@ -2,18 +2,17 @@ import ClaudeCyclesARZN.EvenRuleTrivialBranchArithmeticTargets
 
 namespace ClaudeCyclesARZN
 
-theorem trivialBranchTargetBoundAt_of_vertexFiberSum_le_msub3
-    (m : Nat) (z : VZ m)
-    (hz : vertexFiberSum m z ≤ m - 3) :
-    trivialBranchTargetBoundAt m z := by
-  exact hz
+/--
+This file is intentionally kept as a placeholder.
 
-theorem canonicalEvenTrivialBranchArithmeticBoundAllTargets
-    (m : Nat) :
-    ∀ z : VZ m,
-      vertexFiberSum m z ≤ m - 3 →
-      trivialBranchTargetBoundAt m z := by
-  intro z hz
-  exact trivialBranchTargetBoundAt_of_vertexFiberSum_le_msub3 m z hz
+The previous arithmetic-bound helper depended on an alternative contract for
+`trivialBranchTargetBoundAt`. After restoring the active proof path to the original
+contract in `EvenRuleTrivialBranchArithmeticTargets.lean`, that helper is no longer
+part of the critical path and should not block CI.
+
+When the trivial-branch arithmetic proof is resumed, the bound lemma should be
+reintroduced directly against the current contract:
+`trivialBranchTargetBoundAt m z := (fiberIndex z).val ≤ m - 3`.
+-/
 
 end ClaudeCyclesARZN
