@@ -23,12 +23,9 @@ theorem pure012CandidateHits_color0
   rcases z with ⟨i, j, k⟩
   unfold pure012CandidateHits
   rw [residualMapFromFiberZero_val]
-  ext <;> simp [canonicalEvenWitnessCandidate, fiberIndex, succPow_pure012_color0]
-  · calc
-      i - (i + j + k) + (((i + j + k).val : Nat) : ZMod m)
-          = i - (i + j + k) + (i + j + k) := by
-              rw [ZMod.natCast_zmod_val]
-      _ = i := by ring
+  ext <;>
+    simp [canonicalEvenWitnessCandidate, fiberIndex,
+      succPow_pure012_color0, ZMod.natCast_zmod_val]
 
 theorem pure012CandidateHits_color1
     (m : Nat) (hm : admissibleEvenM m) (z : VZ m) :
@@ -37,12 +34,9 @@ theorem pure012CandidateHits_color1
   rcases z with ⟨i, j, k⟩
   unfold pure012CandidateHits
   rw [residualMapFromFiberZero_val]
-  ext <;> simp [canonicalEvenWitnessCandidate, fiberIndex, succPow_pure012_color1]
-  · calc
-      j - (i + j + k) + (((i + j + k).val : Nat) : ZMod m)
-          = j - (i + j + k) + (i + j + k) := by
-              rw [ZMod.natCast_zmod_val]
-      _ = j := by ring
+  ext <;>
+    simp [canonicalEvenWitnessCandidate, fiberIndex,
+      succPow_pure012_color1, ZMod.natCast_zmod_val]
 
 theorem pure012CandidateHits_color2
     (m : Nat) (hm : admissibleEvenM m) (z : VZ m) :
@@ -51,12 +45,9 @@ theorem pure012CandidateHits_color2
   rcases z with ⟨i, j, k⟩
   unfold pure012CandidateHits
   rw [residualMapFromFiberZero_val]
-  ext <;> simp [canonicalEvenWitnessCandidate, fiberIndex, succPow_pure012_color2]
-  · calc
-      k - (i + j + k) + (((i + j + k).val : Nat) : ZMod m)
-          = k - (i + j + k) + (i + j + k) := by
-              rw [ZMod.natCast_zmod_val]
-      _ = k := by ring
+  ext <;>
+    simp [canonicalEvenWitnessCandidate, fiberIndex,
+      succPow_pure012_color2, ZMod.natCast_zmod_val]
 
 theorem pure012CandidateHits_allColors
     (m : Nat) (hm : admissibleEvenM m) (c : Color) (z : VZ m) :
