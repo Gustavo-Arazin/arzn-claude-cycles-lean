@@ -35,7 +35,6 @@ theorem pure012CandidateHits_color1
   rw [residualMapFromFiberZero_val]
   ext <;>
     simp [canonicalEvenWitnessCandidate, fiberIndex, succPow_pure012_color1]
-  ring
 
 theorem pure012CandidateHits_color2
     (m : Nat) (hm : admissibleEvenM m) (z : VZ m) :
@@ -46,6 +45,7 @@ theorem pure012CandidateHits_color2
   rw [residualMapFromFiberZero_val]
   ext <;>
     simp [canonicalEvenWitnessCandidate, fiberIndex, succPow_pure012_color2]
+  ring
 
 theorem pure012CandidateHits_allColors
     (m : Nat) (hm : admissibleEvenM m) (c : Color) (z : VZ m) :
