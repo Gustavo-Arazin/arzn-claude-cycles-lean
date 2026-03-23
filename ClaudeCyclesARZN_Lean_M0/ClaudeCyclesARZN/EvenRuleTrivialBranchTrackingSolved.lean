@@ -27,15 +27,21 @@ theorem trivialBranchPrefixFiberTrackingColor0Arithmetic_all
                 ZMod.natCast_zmod_val j,
                 ZMod.natCast_zmod_val k]
       _ = (t : ZMod m) := by
-            simpa [sub_eq_add_neg, add_assoc, add_left_comm, add_comm]
+            abel_nf
   have hleftlt : fiberSum m (i - (i + j + k) + (t : ZMod m)).val j.val k.val < m := by
     unfold fiberSum
     exact Nat.mod_lt _ (by omega)
   have hvals :
-      ((fiberSum m (i - (i + j + k) + (t : ZMod m)).val j.val k.val : Nat) : ZMod m).val
+      (((fiberSum m (i - (i + j + k) + (t : ZMod m)).val j.val k.val : Nat) : ZMod m)).val
       = ((t : ZMod m)).val := by
     exact congrArg ZMod.val hEqNatCast
-  rw [ZMod.val_natCast_of_lt hleftlt, ZMod.val_natCast_of_lt htm] at hvals
+  have hleftval :
+      (((fiberSum m (i - (i + j + k) + (t : ZMod m)).val j.val k.val : Nat) : ZMod m)).val
+      = fiberSum m (i - (i + j + k) + (t : ZMod m)).val j.val k.val := by
+    exact ZMod.val_natCast_of_lt hleftlt
+  have htval : ((t : ZMod m)).val = t := by
+    exact ZMod.val_natCast_of_lt htm
+  rw [hleftval, htval] at hvals
   exact hvals
 
 theorem trivialBranchPrefixFiberTrackingColor1Arithmetic_all
@@ -63,15 +69,21 @@ theorem trivialBranchPrefixFiberTrackingColor1Arithmetic_all
                 ZMod.natCast_zmod_val (j - (i + j + k) + (t : ZMod m)),
                 ZMod.natCast_zmod_val k]
       _ = (t : ZMod m) := by
-            simpa [sub_eq_add_neg, add_assoc, add_left_comm, add_comm]
+            abel_nf
   have hleftlt : fiberSum m i.val (j - (i + j + k) + (t : ZMod m)).val k.val < m := by
     unfold fiberSum
     exact Nat.mod_lt _ (by omega)
   have hvals :
-      ((fiberSum m i.val (j - (i + j + k) + (t : ZMod m)).val k.val : Nat) : ZMod m).val
+      (((fiberSum m i.val (j - (i + j + k) + (t : ZMod m)).val k.val : Nat) : ZMod m)).val
       = ((t : ZMod m)).val := by
     exact congrArg ZMod.val hEqNatCast
-  rw [ZMod.val_natCast_of_lt hleftlt, ZMod.val_natCast_of_lt htm] at hvals
+  have hleftval :
+      (((fiberSum m i.val (j - (i + j + k) + (t : ZMod m)).val k.val : Nat) : ZMod m)).val
+      = fiberSum m i.val (j - (i + j + k) + (t : ZMod m)).val k.val := by
+    exact ZMod.val_natCast_of_lt hleftlt
+  have htval : ((t : ZMod m)).val = t := by
+    exact ZMod.val_natCast_of_lt htm
+  rw [hleftval, htval] at hvals
   exact hvals
 
 theorem trivialBranchPrefixFiberTrackingColor2Arithmetic_all
@@ -99,15 +111,21 @@ theorem trivialBranchPrefixFiberTrackingColor2Arithmetic_all
                 ZMod.natCast_zmod_val j,
                 ZMod.natCast_zmod_val (k - (i + j + k) + (t : ZMod m))]
       _ = (t : ZMod m) := by
-            simpa [sub_eq_add_neg, add_assoc, add_left_comm, add_comm]
+            abel_nf
   have hleftlt : fiberSum m i.val j.val (k - (i + j + k) + (t : ZMod m)).val < m := by
     unfold fiberSum
     exact Nat.mod_lt _ (by omega)
   have hvals :
-      ((fiberSum m i.val j.val (k - (i + j + k) + (t : ZMod m)).val : Nat) : ZMod m).val
+      (((fiberSum m i.val j.val (k - (i + j + k) + (t : ZMod m)).val : Nat) : ZMod m)).val
       = ((t : ZMod m)).val := by
     exact congrArg ZMod.val hEqNatCast
-  rw [ZMod.val_natCast_of_lt hleftlt, ZMod.val_natCast_of_lt htm] at hvals
+  have hleftval :
+      (((fiberSum m i.val j.val (k - (i + j + k) + (t : ZMod m)).val : Nat) : ZMod m)).val
+      = fiberSum m i.val j.val (k - (i + j + k) + (t : ZMod m)).val := by
+    exact ZMod.val_natCast_of_lt hleftlt
+  have htval : ((t : ZMod m)).val = t := by
+    exact ZMod.val_natCast_of_lt htm
+  rw [hleftval, htval] at hvals
   exact hvals
 
 theorem canonicalEvenTrivialBranchTrackingArithmeticColorCases_all
