@@ -22,6 +22,9 @@ theorem canonicalEvenTrivialBranchTrackingColor0Target_of_modCore
   intro z hz
   intro t ht
   letI : NeZero m := neZero_of_admissibleEvenM m hm
+  have hm8 : 8 ≤ m := hm.1
+  have hmpos : 0 < m := by
+    omega
   have hmod :
       ((fiberSum m (z.1 - fiberIndex z + t).val z.2.1.val z.2.2.val : Nat) : ZMod m)
         = (t : ZMod m) := by
@@ -29,7 +32,7 @@ theorem canonicalEvenTrivialBranchTrackingColor0Target_of_modCore
   have hleftlt :
       fiberSum m (z.1 - fiberIndex z + t).val z.2.1.val z.2.2.val < m := by
     unfold fiberSum
-    exact Nat.mod_lt _ (by omega)
+    exact Nat.mod_lt _ hmpos
   have hfiblt : (fiberIndex z).val < m := by
     simpa using (ZMod.val_lt (fiberIndex z))
   have htm : t < m := Nat.lt_trans ht hfiblt
