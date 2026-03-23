@@ -1,6 +1,6 @@
 - Status: CI green
 - Fase atual: M3 canonical even rule
-- Checkpoint atual: residual support + residual normal form shell + strong-reduction bridge integrados
+- Checkpoint atual: LocalRule bridge + strong-reduction specialization + trivial-branch tracking pipeline integrados
 - Lean artifacts fechados nesta fase:
   - EvenRule.lean
   - EvenRuleFacts.lean
@@ -8,7 +8,26 @@
   - EvenResidualSupport.lean
   - EvenResidualNormalForm.lean
   - ResidualNormalFormBridge.lean
-- Entry point atualizado: ClaudeCyclesARZN.lean importa EvenResidualSupport, EvenResidualNormalForm e ResidualNormalFormBridge
+  - EvenRuleLocalRule.lean
+  - EvenRuleLocalRuleFacts.lean
+  - EvenRuleLocalResidualNormalForm.lean
+  - EvenRuleStrongReduction.lean
+  - EvenRuleWitnessTargets.lean
+  - EvenRuleWitnessByCases.lean
+  - EvenRuleWitnessObligations.lean
+  - EvenRuleWitnessCandidates.lean
+  - Pure012WitnessDynamics.lean
+  - Pure012WitnessHits.lean
+  - EvenRuleTrivialWitnessBridge.lean
+  - EvenRuleCompletionTargets.lean
+  - EvenRuleTrivialBranchReduction.lean
+  - EvenRuleTrivialBranchOutsideResidual.lean
+  - EvenRuleTrivialBranchArithmeticTargets.lean
+  - EvenRuleTrivialBranchTrackingCases.lean
+  - EvenRuleTrivialBranchTrackingArithmetic.lean
+  - EvenRuleTrivialBranchTrackingColor0.lean
+  - EvenRuleTrivialBranchTrackingColor0ModCore.lean
+- Entry point atualizado: ClaudeCyclesARZN.lean importa a trilha M3 até EvenRuleTrivialBranchTrackingColor0ModCore
 - M0, M1 e M2a–M2e permanecem fechados e não devem ser revisitados, salvo novo erro de CI
 - Status da regra canônica par:
   - regra local formalizada
@@ -16,8 +35,20 @@
   - residual support formalizado
   - shell de forma normal residual formalizada
   - ponte de interface com StrongReduction formalizada
+  - tradução para LocalRule formalizada
+  - especialização de StrongReduction para a regra canônica par formalizada
+  - witness targets formalizados
+  - redução por casos de fibra formalizada
+  - candidate witnesses explícitos formalizados
+  - dinâmica pura 012 formalizada
+  - hit do candidate witness sob dinâmica pura 012 formalizado
+  - ramo trivial reduzido a coincidence/prefix agreement/outside-residual/tracking targets
+  - tracking de color0 isolado em mod-core
+- Módulos em quarentena / fora do caminho crítico:
+  - EvenRuleTrivialBranchArithmeticBound.lean neutralizado
+  - EvenRuleTrivialBranchTrackingSolved.lean quarantined e não importado no entrypoint
 - lake-manifest.json corrompido continua removido e não deve ser reintroduzido
 - Próximo passo exato:
-  provar que a regra canônica par concreta satisfaz HasResidualNormalForm e então conectar essa prova ao StrongReduction para o fechamento final do caso par
+  provar CanonicalEvenTrivialBranchTrackingColor0ModCore m; depois fechar color1 e color2; então recompor o tracking completo do ramo trivial e retomar as fibras excepcionais m-2 e m-1 para alimentar HasResidualNormalForm e StrongReduction
 - Label sugerido do checkpoint:
-  v6-m3-residual-normal-form-bridge
+  v6-m3-color0-mod-core-shell
