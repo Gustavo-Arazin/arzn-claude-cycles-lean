@@ -2,15 +2,17 @@ import ClaudeCyclesARZN.EvenRuleTrivialBranchTrackingArithmetic
 
 namespace ClaudeCyclesARZN
 
-/--
-This file is intentionally neutralized.
+/- 
+This module is intentionally quarantined.
 
-The previous attempt to discharge all three colorwise arithmetic tracking lemmas
-in one shot is not part of the current critical path and has become a CI blocker.
+Reason:
+the current critical path of the M3 proof pipeline reaches
+`EvenRuleTrivialBranchTrackingArithmetic`, but the attempt to solve all
+three colorwise arithmetic tracking lemmas in one file is not yet stable.
 
-The active proof pipeline already reaches the tracking interface in
-`EvenRuleTrivialBranchTrackingArithmetic.lean`; the concrete solved lemmas should be
-reintroduced later in smaller, independently checkable steps.
+This file remains as a placeholder so the repository keeps a named slot
+for the future solved version, but it should not be imported by the
+entrypoint until the first color case is closed in a standalone step.
 -/
 
 end ClaudeCyclesARZN
