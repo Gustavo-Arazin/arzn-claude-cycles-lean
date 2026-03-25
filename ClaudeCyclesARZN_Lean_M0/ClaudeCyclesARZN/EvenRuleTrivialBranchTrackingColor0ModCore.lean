@@ -68,7 +68,8 @@ theorem canonicalEvenTrivialBranchTrackingColor0ModCore_all
     rw [← ZMod.natCast_zmod_val (i - (i + j + k) + (t : ZMod m))]
     rw [← ZMod.natCast_zmod_val j]
     rw [← ZMod.natCast_zmod_val k]
-    ring
+    change i - (i + j + k) + (t : ZMod m) + j + k = (t : ZMod m)
+    ring_nf
   simpa [fiberIndex] using hnorm
 
 theorem canonicalEvenTrivialBranchTrackingColor0Target_all
