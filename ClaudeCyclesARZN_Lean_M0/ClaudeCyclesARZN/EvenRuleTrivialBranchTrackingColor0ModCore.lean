@@ -19,8 +19,7 @@ theorem canonicalEvenTrivialBranchTrackingColor0Target_of_modCore
     (m : Nat) (hm : admissibleEvenM m)
     (hcore : CanonicalEvenTrivialBranchTrackingColor0ModCore m) :
     CanonicalEvenTrivialBranchTrackingColor0Target m := by
-  intro z hz
-  intro t ht
+  intro z hz t ht
   letI : NeZero m := neZero_of_admissibleEvenM m hm
   have hmpos : 0 < m := by
     rcases hm with ⟨hm8, _⟩
@@ -57,9 +56,12 @@ theorem canonicalEvenTrivialBranchTrackingColor0ModCore_all
   intro z t ht
   rcases z with ⟨i, j, k⟩
   unfold fiberSum
-  rw [show (((((i - (i + j + k) + t).val + j.val + k.val) % m : Nat) : ZMod m) =
-      ((((i - (i + j + k) + t).val + j.val + k.val : Nat)) : ZMod m) by
-        simp]
+  have hcastmod :
+      (((((i - (i + j + k) + (t : ZMod m)).val + j.val + k.val) % m : Nat) : ZMod m))
+        =
+      ((((i - (i + j + k) + (t : ZMod m)).val + j.val + k.val : Nat)) : ZMod m) := by
+    simp
+  rw [hcastmod]
   rw [← ZMod.natCast_zmod_val (i - (i + j + k) + (t : ZMod m))]
   rw [← ZMod.natCast_zmod_val j]
   rw [← ZMod.natCast_zmod_val k]
