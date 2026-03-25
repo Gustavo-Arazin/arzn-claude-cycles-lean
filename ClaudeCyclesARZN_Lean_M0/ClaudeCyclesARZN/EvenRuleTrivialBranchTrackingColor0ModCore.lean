@@ -55,9 +55,17 @@ theorem canonicalEvenTrivialBranchTrackingColor0ModCore_all
   letI : NeZero m := neZero_of_admissibleEvenM m hm
   intro z t ht
   rcases z with ⟨i, j, k⟩
-  have hnorm :
+    have hnorm :
       ((fiberSum m (i - (i + j + k) + (t : ZMod m)).val j.val k.val : Nat) : ZMod m)
         = (t : ZMod m) := by
+    have hsum :
+        ((((i - (i + j + k) + (t : ZMod m)).val : Nat) : ZMod m) +
+          ((j.val : Nat) : ZMod m) +
+          ((k.val : Nat) : ZMod m)) = (t : ZMod m) := by
+      rw [ZMod.natCast_zmod_val (i - (i + j + k) + (t : ZMod m)),
+          ZMod.natCast_zmod_val j,
+          ZMod.natCast_zmod_val k]
+      ring_nf
     unfold fiberSum
     have hcastmod :
         ((((i - (i + j + k) + (t : ZMod m)).val + j.val + k.val) % m : Nat) : ZMod m)
@@ -65,11 +73,7 @@ theorem canonicalEvenTrivialBranchTrackingColor0ModCore_all
         ((((i - (i + j + k) + (t : ZMod m)).val + j.val + k.val : Nat)) : ZMod m) := by
       simp
     rw [hcastmod]
-    rw [← ZMod.natCast_zmod_val (i - (i + j + k) + (t : ZMod m))]
-    rw [← ZMod.natCast_zmod_val j]
-    rw [← ZMod.natCast_zmod_val k]
-    change i - (i + j + k) + (t : ZMod m) + j + k = (t : ZMod m)
-    ring_nf
+    simpa [Nat.cast_add, add_assoc] using hsum
   simpa [fiberIndex] using hnorm
 
 theorem canonicalEvenTrivialBranchTrackingColor0Target_all
