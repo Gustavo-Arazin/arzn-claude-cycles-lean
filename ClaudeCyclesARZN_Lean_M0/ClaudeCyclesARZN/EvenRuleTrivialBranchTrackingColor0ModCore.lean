@@ -63,9 +63,10 @@ theorem canonicalEvenTrivialBranchTrackingColor0ModCore_all
       ((((i - (i + j + k) + (t : ZMod m)).val + j.val + k.val : Nat)) : ZMod m) := by
     simp
   rw [hcastmod]
-  rw [← ZMod.natCast_zmod_val (i - (i + j + k) + (t : ZMod m))]
-  rw [← ZMod.natCast_zmod_val j]
-  rw [← ZMod.natCast_zmod_val k]
+  rw [Nat.cast_add, Nat.cast_add]
+  rw [ZMod.natCast_zmod_val (i - (i + j + k) + (t : ZMod m)),
+      ZMod.natCast_zmod_val j,
+      ZMod.natCast_zmod_val k]
   ring_nf
 
 theorem canonicalEvenTrivialBranchTrackingColor0Target_all
