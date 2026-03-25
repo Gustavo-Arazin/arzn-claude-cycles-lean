@@ -74,7 +74,8 @@ theorem canonicalEvenTrivialBranchTrackingColor0ModCore_all
       simp
     rw [hcastmod]
     simpa [Nat.cast_add, add_assoc] using hsum
-  simpa [fiberIndex] using hnorm
+    dsimp [fiberIndex] at hnorm ⊢
+  exact hnorm
 
 theorem canonicalEvenTrivialBranchTrackingColor0Target_all
     (m : Nat) (hm : admissibleEvenM m) :
