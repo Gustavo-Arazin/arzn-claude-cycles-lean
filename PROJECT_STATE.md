@@ -1,6 +1,6 @@
 - Status: CI green
 - Fase atual: M3 canonical even rule
-- Checkpoint atual: LocalRule bridge + strong-reduction specialization + trivial-branch tracking pipeline integrados
+- Checkpoint atual: trivial-branch tracking completo + arithmetic targets + coincidence all-colors fechados
 - Lean artifacts fechados nesta fase:
   - EvenRule.lean
   - EvenRuleFacts.lean
@@ -27,8 +27,8 @@
   - EvenRuleTrivialBranchTrackingArithmetic.lean
   - EvenRuleTrivialBranchTrackingColor0.lean
   - EvenRuleTrivialBranchTrackingColor0ModCore.lean
-- Entry point atualizado: ClaudeCyclesARZN.lean importa a trilha M3 até EvenRuleTrivialBranchTrackingColor0ModCore
-- M0, M1 e M2a–M2e permanecem fechados e não devem ser revisitados, salvo novo erro de CI
+- Entry point: ClaudeCyclesARZN.lean continua importando a trilha M3 até EvenRuleTrivialBranchTrackingColor0ModCore
+- M0, M1 e M2a–M2e permanecem fechados e não devem ser revisitados salvo novo erro de CI
 - Status da regra canônica par:
   - regra local formalizada
   - fibras excepcionais formalizadas
@@ -42,13 +42,22 @@
   - candidate witnesses explícitos formalizados
   - dinâmica pura 012 formalizada
   - hit do candidate witness sob dinâmica pura 012 formalizado
-  - ramo trivial reduzido a coincidence/prefix agreement/outside-residual/tracking targets
-  - tracking de color0 isolado em mod-core
+  - ramo trivial reduzido a coincidence / prefix agreement / outside-residual / tracking targets
+  - tracking de color0 isolado em mod-core e fechado
+  - tracking de color1 isolado em mod-core e fechado
+  - tracking de color2 isolado em mod-core e fechado
+  - recomposição de CanonicalEvenTrivialBranchTrackingColorCases m fechada
+  - CanonicalEvenTrivialBranchArithmeticTargets m fechado
+  - CanonicalEvenTrivialBranchCoincidenceAllColors m fechado
 - Módulos em quarentena / fora do caminho crítico:
   - EvenRuleTrivialBranchArithmeticBound.lean neutralizado
   - EvenRuleTrivialBranchTrackingSolved.lean quarantined e não importado no entrypoint
 - lake-manifest.json corrompido continua removido e não deve ser reintroduzido
 - Próximo passo exato:
-  provar CanonicalEvenTrivialBranchTrackingColor0ModCore m; depois fechar color1 e color2; então recompor o tracking completo do ramo trivial e retomar as fibras excepcionais m-2 e m-1 para alimentar HasResidualNormalForm e StrongReduction
+  fechar as witness obligations excepcionais começando por F_{m-1}, o ramo mais simples; depois fechar F_{m-2}; então empacotar CanonicalEvenCompletionTargets, alimentar CanonicalEvenHasResidualNormalForm e aplicar StrongReduction
+- Regra operacional:
+  - não criar arquivo novo por reflexo
+  - um step = um gargalo real fechado
+  - priorizar o caminho que reduz complexidade acumulada e preserva CI green
 - Label sugerido do checkpoint:
-  v6-m3-color0-mod-core-shell
+  v6-m3-trivial-branch-coincidence-closed
