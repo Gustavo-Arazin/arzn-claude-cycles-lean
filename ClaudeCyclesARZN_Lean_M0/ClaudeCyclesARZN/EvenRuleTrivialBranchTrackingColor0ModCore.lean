@@ -311,7 +311,6 @@ theorem canonicalEvenTrivialBranchTargetBound_of_vertexFiberSum
     rw [ZMod.natCast_zmod_val i,
         ZMod.natCast_zmod_val j,
         ZMod.natCast_zmod_val k]
-    ring
   have hsumlt : fiberSum m i.val j.val k.val < m := by
     unfold fiberSum
     exact Nat.mod_lt _ hmpos
