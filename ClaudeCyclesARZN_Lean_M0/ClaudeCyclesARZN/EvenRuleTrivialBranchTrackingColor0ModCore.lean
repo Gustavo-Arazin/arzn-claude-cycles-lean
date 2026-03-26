@@ -156,6 +156,86 @@ theorem canonicalEvenTrivialBranchTrackingColor1Target_all
     m hm
     (canonicalEvenTrivialBranchTrackingColor1ModCore_all m hm)
 
+/--
+Exact modular core still needed to prove the color-2 tracking target.
+
+This is the color-2 analogue of the previous modular reductions:
+the nat-level tracking statement follows once the corresponding equality
+in `ZMod m` is available pointwise.
+-/
+def CanonicalEvenTrivialBranchTrackingColor2ModCore (m : Nat) : Prop :=
+  ∀ z : VZ m, ∀ t : Nat,
+    t < (fiberIndex z).val →
+    ((fiberSum m z.1.val z.2.1.val (z.2.2 - fiberIndex z + t).val : Nat) : ZMod m)
+      = (t : ZMod m)
+
+theorem canonicalEvenTrivialBranchTrackingColor2Target_of_modCore
+    (m : Nat) (hm : admissibleEvenM m)
+    (hcore : CanonicalEvenTrivialBranchTrackingColor2ModCore m) :
+    ∀ z : VZ m,
+      vertexFiberSum m z ≤ m - 3 →
+      trivialBranchPrefixFiberTrackingColor2ArithmeticAt m z := by
+  intro z hz t ht
+  letI : NeZero m := neZero_of_admissibleEvenM m hm
+  have hmpos : 0 < m := by
+    rcases hm with ⟨hm8, _⟩
+    omega
+  have hmod :
+      ((fiberSum m z.1.val z.2.1.val (z.2.2 - fiberIndex z + t).val : Nat) : ZMod m)
+        = (t : ZMod m) := by
+    exact hcore z t ht
+  have hleftlt :
+      fiberSum m z.1.val z.2.1.val (z.2.2 - fiberIndex z + t).val < m := by
+    unfold fiberSum
+    exact Nat.mod_lt _ hmpos
+  have hfiblt : (fiberIndex z).val < m := by
+    simpa using (ZMod.val_lt (fiberIndex z))
+  have htm : t < m := Nat.lt_trans ht hfiblt
+  have hvals :
+      (((fiberSum m z.1.val z.2.1.val (z.2.2 - fiberIndex z + t).val : Nat) : ZMod m)).val
+        = ((t : ZMod m)).val := by
+    exact congrArg ZMod.val hmod
+  have hleftval :
+      (((fiberSum m z.1.val z.2.1.val (z.2.2 - fiberIndex z + t).val : Nat) : ZMod m)).val
+        =
+      fiberSum m z.1.val z.2.1.val (z.2.2 - fiberIndex z + t).val := by
+    exact ZMod.val_natCast_of_lt hleftlt
+  have htval : ((t : ZMod m)).val = t := by
+    exact ZMod.val_natCast_of_lt htm
+  rw [hleftval, htval] at hvals
+  exact hvals
+
+theorem canonicalEvenTrivialBranchTrackingColor2ModCore_all
+    (m : Nat) (hm : admissibleEvenM m) :
+    CanonicalEvenTrivialBranchTrackingColor2ModCore m := by
+  letI : NeZero m := neZero_of_admissibleEvenM m hm
+  intro z t ht
+  rcases z with ⟨i, j, k⟩
+  change
+    ((fiberSum m i.val j.val (k - (i + j + k) + (t : ZMod m)).val : Nat) : ZMod m)
+      = (t : ZMod m)
+  unfold fiberSum
+  have hcastmod :
+      (((i.val + j.val + (k - (i + j + k) + (t : ZMod m)).val) % m : Nat) : ZMod m)
+        =
+      (((i.val + j.val + (k - (i + j + k) + (t : ZMod m)).val : Nat)) : ZMod m) := by
+    simp
+  rw [hcastmod]
+  rw [Nat.cast_add, Nat.cast_add]
+  rw [ZMod.natCast_zmod_val i,
+      ZMod.natCast_zmod_val j,
+      ZMod.natCast_zmod_val (k - (i + j + k) + (t : ZMod m))]
+  ring_nf
+
+theorem canonicalEvenTrivialBranchTrackingColor2Target_all
+    (m : Nat) (hm : admissibleEvenM m) :
+    ∀ z : VZ m,
+      vertexFiberSum m z ≤ m - 3 →
+      trivialBranchPrefixFiberTrackingColor2ArithmeticAt m z := by
+  exact canonicalEvenTrivialBranchTrackingColor2Target_of_modCore
+    m hm
+    (canonicalEvenTrivialBranchTrackingColor2ModCore_all m hm)
+
 theorem canonicalEvenTrivialBranchTrackingColorCases_of_modCoreColor0
     (m : Nat) (hm : admissibleEvenM m)
     (h0 : CanonicalEvenTrivialBranchTrackingColor0ModCore m)
@@ -172,5 +252,39 @@ theorem canonicalEvenTrivialBranchTrackingColorCases_of_modCoreColor0
   · exact canonicalEvenTrivialBranchTrackingColor0Target_of_modCore m hm h0
   · exact h1
   · exact h2
+
+theorem canonicalEvenTrivialBranchTrackingColorCases_of_modCoreColor0Color1
+    (m : Nat) (hm : admissibleEvenM m)
+    (h0 : CanonicalEvenTrivialBranchTrackingColor0ModCore m)
+    (h1 : CanonicalEvenTrivialBranchTrackingColor1ModCore m)
+    (h2 :
+      ∀ z : VZ m,
+        vertexFiberSum m z ≤ m - 3 →
+        trivialBranchPrefixFiberTrackingColor2ArithmeticAt m z) :
+    CanonicalEvenTrivialBranchTrackingColorCases m := by
+  apply canonicalEvenTrivialBranchTrackingColorCases_of_separateTargets
+  · exact canonicalEvenTrivialBranchTrackingColor0Target_of_modCore m hm h0
+  · exact canonicalEvenTrivialBranchTrackingColor1Target_of_modCore m hm h1
+  · exact h2
+
+theorem canonicalEvenTrivialBranchTrackingColorCases_of_modCoreColor0Color1Color2
+    (m : Nat) (hm : admissibleEvenM m)
+    (h0 : CanonicalEvenTrivialBranchTrackingColor0ModCore m)
+    (h1 : CanonicalEvenTrivialBranchTrackingColor1ModCore m)
+    (h2 : CanonicalEvenTrivialBranchTrackingColor2ModCore m) :
+    CanonicalEvenTrivialBranchTrackingColorCases m := by
+  apply canonicalEvenTrivialBranchTrackingColorCases_of_separateTargets
+  · exact canonicalEvenTrivialBranchTrackingColor0Target_of_modCore m hm h0
+  · exact canonicalEvenTrivialBranchTrackingColor1Target_of_modCore m hm h1
+  · exact canonicalEvenTrivialBranchTrackingColor2Target_of_modCore m hm h2
+
+theorem canonicalEvenTrivialBranchTrackingColorCases_all
+    (m : Nat) (hm : admissibleEvenM m) :
+    CanonicalEvenTrivialBranchTrackingColorCases m := by
+  exact canonicalEvenTrivialBranchTrackingColorCases_of_modCoreColor0Color1Color2
+    m hm
+    (canonicalEvenTrivialBranchTrackingColor0ModCore_all m hm)
+    (canonicalEvenTrivialBranchTrackingColor1ModCore_all m hm)
+    (canonicalEvenTrivialBranchTrackingColor2ModCore_all m hm)
 
 end ClaudeCyclesARZN
