@@ -448,7 +448,7 @@ theorem trivialBranchPrefixOutsideResidualAt_of_tracking_and_eq_msub2
   intro t ht
   let v := succPow (pure012LocalRule m) c t (canonicalEvenWitnessCandidate m c z).1
   have hm8 : 8 ≤ m := hm.1
-    have hfib :
+  have hfib :
       (fiberIndex z).val = vertexFiberSum m z := by
     rcases z with ⟨i, j, k⟩
     change (i + j + k).val = fiberSum m i.val j.val k.val
@@ -476,6 +476,17 @@ theorem trivialBranchPrefixOutsideResidualAt_of_tracking_and_eq_msub2
       exact congrArg ZMod.val hcast
     rw [ZMod.val_natCast_of_lt hlt] at hvals
     exact hvals.symm
+  have hsub2fib : (fiberIndex z).val = m - 2 := by
+    rw [hfib, hz]
+  have htle : t ≤ m - 3 := by
+    omega
+  have hsum : fiberSum m v.1.val v.2.1.val v.2.2.val = t := by
+    simpa [v] using htrack t ht
+  simpa [v] using
+    (not_residualSupport_of_le_msub3
+      (m := m) (i := v.1.val) (j := v.2.1.val) (k := v.2.2.val) hm8 (by
+        rw [hsum]
+        exact htle))
 
 theorem canonicalEvenExceptionalWitnesses_msub2_allColors
     (m : Nat) (hm : admissibleEvenM m) :
