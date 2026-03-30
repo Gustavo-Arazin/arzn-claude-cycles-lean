@@ -340,4 +340,156 @@ theorem canonicalEvenTrivialBranchCoincidenceAllColors_all
     m hm
     (canonicalEvenTrivialBranchArithmeticTargets_all m hm)
 
+theorem canonicalEvenTrivialBranchTrackingColor0Arithmetic_all
+    (m : Nat) (hm : admissibleEvenM m) :
+    ∀ z : VZ m, trivialBranchPrefixFiberTrackingColor0ArithmeticAt m z := by
+  letI : NeZero m := neZero_of_admissibleEvenM m hm
+  intro z t ht
+  have hmpos : 0 < m := by
+    rcases hm with ⟨hm8, _⟩
+    omega
+  have hmod :
+      ((fiberSum m (z.1 - fiberIndex z + t).val z.2.1.val z.2.2.val : Nat) : ZMod m)
+        = (t : ZMod m) := by
+    exact canonicalEvenTrivialBranchTrackingColor0ModCore_all m hm z t ht
+  have hleftlt :
+      fiberSum m (z.1 - fiberIndex z + t).val z.2.1.val z.2.2.val < m := by
+    unfold fiberSum
+    exact Nat.mod_lt _ hmpos
+  have hfiblt : (fiberIndex z).val < m := by
+    simpa using (ZMod.val_lt (fiberIndex z))
+  have htm : t < m := Nat.lt_trans ht hfiblt
+  have hvals :
+      (((fiberSum m (z.1 - fiberIndex z + t).val z.2.1.val z.2.2.val : Nat) : ZMod m)).val
+        = ((t : ZMod m)).val := by
+    exact congrArg ZMod.val hmod
+  have hleftval :
+      (((fiberSum m (z.1 - fiberIndex z + t).val z.2.1.val z.2.2.val : Nat) : ZMod m)).val
+        =
+      fiberSum m (z.1 - fiberIndex z + t).val z.2.1.val z.2.2.val := by
+    exact ZMod.val_natCast_of_lt hleftlt
+  have htval : ((t : ZMod m)).val = t := by
+    exact ZMod.val_natCast_of_lt htm
+  rw [hleftval, htval] at hvals
+  exact hvals
+
+theorem canonicalEvenTrivialBranchTrackingColor1Arithmetic_all
+    (m : Nat) (hm : admissibleEvenM m) :
+    ∀ z : VZ m, trivialBranchPrefixFiberTrackingColor1ArithmeticAt m z := by
+  letI : NeZero m := neZero_of_admissibleEvenM m hm
+  intro z t ht
+  have hmpos : 0 < m := by
+    rcases hm with ⟨hm8, _⟩
+    omega
+  have hmod :
+      ((fiberSum m z.1.val (z.2.1 - fiberIndex z + t).val z.2.2.val : Nat) : ZMod m)
+        = (t : ZMod m) := by
+    exact canonicalEvenTrivialBranchTrackingColor1ModCore_all m hm z t ht
+  have hleftlt :
+      fiberSum m z.1.val (z.2.1 - fiberIndex z + t).val z.2.2.val < m := by
+    unfold fiberSum
+    exact Nat.mod_lt _ hmpos
+  have hfiblt : (fiberIndex z).val < m := by
+    simpa using (ZMod.val_lt (fiberIndex z))
+  have htm : t < m := Nat.lt_trans ht hfiblt
+  have hvals :
+      (((fiberSum m z.1.val (z.2.1 - fiberIndex z + t).val z.2.2.val : Nat) : ZMod m)).val
+        = ((t : ZMod m)).val := by
+    exact congrArg ZMod.val hmod
+  have hleftval :
+      (((fiberSum m z.1.val (z.2.1 - fiberIndex z + t).val z.2.2.val : Nat) : ZMod m)).val
+        =
+      fiberSum m z.1.val (z.2.1 - fiberIndex z + t).val z.2.2.val := by
+    exact ZMod.val_natCast_of_lt hleftlt
+  have htval : ((t : ZMod m)).val = t := by
+    exact ZMod.val_natCast_of_lt htm
+  rw [hleftval, htval] at hvals
+  exact hvals
+
+theorem canonicalEvenTrivialBranchTrackingColor2Arithmetic_all
+    (m : Nat) (hm : admissibleEvenM m) :
+    ∀ z : VZ m, trivialBranchPrefixFiberTrackingColor2ArithmeticAt m z := by
+  letI : NeZero m := neZero_of_admissibleEvenM m hm
+  intro z t ht
+  have hmpos : 0 < m := by
+    rcases hm with ⟨hm8, _⟩
+    omega
+  have hmod :
+      ((fiberSum m z.1.val z.2.1.val (z.2.2 - fiberIndex z + t).val : Nat) : ZMod m)
+        = (t : ZMod m) := by
+    exact canonicalEvenTrivialBranchTrackingColor2ModCore_all m hm z t ht
+  have hleftlt :
+      fiberSum m z.1.val z.2.1.val (z.2.2 - fiberIndex z + t).val < m := by
+    unfold fiberSum
+    exact Nat.mod_lt _ hmpos
+  have hfiblt : (fiberIndex z).val < m := by
+    simpa using (ZMod.val_lt (fiberIndex z))
+  have htm : t < m := Nat.lt_trans ht hfiblt
+  have hvals :
+      (((fiberSum m z.1.val z.2.1.val (z.2.2 - fiberIndex z + t).val : Nat) : ZMod m)).val
+        = ((t : ZMod m)).val := by
+    exact congrArg ZMod.val hmod
+  have hleftval :
+      (((fiberSum m z.1.val z.2.1.val (z.2.2 - fiberIndex z + t).val : Nat) : ZMod m)).val
+        =
+      fiberSum m z.1.val z.2.1.val (z.2.2 - fiberIndex z + t).val := by
+    exact ZMod.val_natCast_of_lt hleftlt
+  have htval : ((t : ZMod m)).val = t := by
+    exact ZMod.val_natCast_of_lt htm
+  rw [hleftval, htval] at hvals
+  exact hvals
+
+theorem trivialBranchPrefixOutsideResidualAt_of_tracking_and_eq_msub2
+    (m : Nat) (c : Color) (z : VZ m)
+    (hm : admissibleEvenM m)
+    (hz : vertexFiberSum m z = m - 2)
+    (htrack : trivialBranchPrefixFiberTrackingAt m c z) :
+    trivialBranchPrefixOutsideResidualAt m c z := by
+  intro t ht
+  let v := succPow (pure012LocalRule m) c t (canonicalEvenWitnessCandidate m c z).1
+  have hm8 : 8 ≤ m := hm.1
+  have hfib :
+      (fiberIndex z).val = vertexFiberSum m z := by
+    rcases z with ⟨i, j, k⟩
+    simp [vertexFiberSum, fiberSum, fiberIndex]
+  have hsub2fib : (fiberIndex z).val = m - 2 := by
+    rw [hfib, hz]
+  have htle : t ≤ m - 3 := by
+    omega
+  have hsum : fiberSum m v.1.val v.2.1.val v.2.2.val = t := by
+    simpa [v] using htrack t ht
+  apply not_residualSupport_of_le_msub3
+    (m := m) (i := v.1.val) (j := v.2.1.val) (k := v.2.2.val) hm8
+  rw [hsum]
+  exact htle
+
+theorem canonicalEvenExceptionalWitnesses_msub2_allColors
+    (m : Nat) (hm : admissibleEvenM m) :
+    ∀ c : Color, ∀ z : VZ m,
+      vertexFiberSum m z = m - 2 →
+      CanonicalEvenWitnessAt m c z := by
+  intro c z hz
+  have htrack : trivialBranchPrefixFiberTrackingAt m c z := by
+    apply trivialBranchPrefixFiberTrackingAt_of_colorCases m c z
+    · exact trivialBranchPrefixFiberTrackingColor0At_of_arithmetic
+        m z (canonicalEvenTrivialBranchTrackingColor0Arithmetic_all m hm z)
+    · exact trivialBranchPrefixFiberTrackingColor1At_of_arithmetic
+        m z (canonicalEvenTrivialBranchTrackingColor1Arithmetic_all m hm z)
+    · exact trivialBranchPrefixFiberTrackingColor2At_of_arithmetic
+        m z (canonicalEvenTrivialBranchTrackingColor2Arithmetic_all m hm z)
+  have hout :
+      trivialBranchPrefixOutsideResidualAt m c z := by
+    exact trivialBranchPrefixOutsideResidualAt_of_tracking_and_eq_msub2
+      m c z hm hz htrack
+  have hprefix :
+      trivialBranchPrefixAgreementAt m c z := by
+    exact trivialBranchPrefixAgreementAt_of_outsideResidual
+      m c z hm hout
+  have hcoinc :
+      trivialBranchPure012CoincidesAt m c z := by
+    exact trivialBranchPure012CoincidesAt_of_prefixAgreement
+      m c z hprefix
+  exact canonicalEvenWitnessAt_of_trivialBranchPure012Coincides
+    m c hm z hcoinc
+
 end ClaudeCyclesARZN
