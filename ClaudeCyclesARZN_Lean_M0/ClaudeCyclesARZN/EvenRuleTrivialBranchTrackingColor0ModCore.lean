@@ -494,6 +494,7 @@ theorem canonicalEvenExceptionalWitnesses_msub2_allColors
       vertexFiberSum m z = m - 2 →
       CanonicalEvenWitnessAt m c z := by
   intro c z hz
+  letI : NeZero m := neZero_of_admissibleEvenM m hm
   have htrack : trivialBranchPrefixFiberTrackingAt m c z := by
     apply trivialBranchPrefixFiberTrackingAt_of_colorCases m c z
     · exact trivialBranchPrefixFiberTrackingColor0At_of_arithmetic
