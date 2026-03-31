@@ -340,6 +340,20 @@ theorem canonicalEvenTrivialBranchCoincidenceAllColors_all
     m hm
     (canonicalEvenTrivialBranchArithmeticTargets_all m hm)
 
+theorem canonicalEvenCompletionTargets_all_of_exceptionalWitnesses
+    (m : Nat) (hm : admissibleEvenM m)
+    (hsub2 :
+      ∀ c : Color, ∀ z : VZ m,
+        vertexFiberSum m z = m - 2 →
+        CanonicalEvenWitnessAt m c z)
+    (hsub1 :
+      ∀ c : Color, ∀ z : VZ m,
+        vertexFiberSum m z = m - 1 →
+        CanonicalEvenWitnessAt m c z) :
+    CanonicalEvenCompletionTargets m := by
+  refine ⟨canonicalEvenTrivialBranchCoincidenceAllColors_all m hm, ?_⟩
+  exact ⟨hsub2, hsub1⟩
+
 theorem canonicalEvenCompletionTargets_of_exceptionalWitnesses
     (m : Nat) (hm : admissibleEvenM m)
     (hexc : CanonicalEvenExceptionalWitnessesAllColors m) :
