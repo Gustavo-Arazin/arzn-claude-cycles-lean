@@ -445,48 +445,48 @@ theorem trivialBranchPrefixOutsideResidualAt_of_tracking_and_eq_msub2
     (hz : vertexFiberSum m z = m - 2)
     (htrack : trivialBranchPrefixFiberTrackingAt m c z) :
     trivialBranchPrefixOutsideResidualAt m c z := by
-  intro t ht
-  let v := succPow (pure012LocalRule m) c t (canonicalEvenWitnessCandidate m c z).1
-  have hm8 : 8 ≤ m := hm.1
-  have hfib :
-      (fiberIndex z).val = vertexFiberSum m z := by
-    rcases z with ⟨i, j, k⟩
-    change (i + j + k).val = fiberSum m i.val j.val k.val
-    have hmpos : 0 < m := by
-      rcases hm with ⟨hm8, _⟩
-      omega
-    have hcast :
-        (((fiberSum m i.val j.val k.val : Nat) : ZMod m)) = i + j + k := by
-      unfold fiberSum
-      have hmod :
-          ((((i.val + j.val + k.val) % m : Nat) : ZMod m))
-            =
-          (((i.val + j.val + k.val : Nat) : ZMod m)) := by
-        simp
-      rw [hmod]
-      rw [Nat.cast_add, Nat.cast_add]
-      rw [ZMod.natCast_zmod_val i,
-          ZMod.natCast_zmod_val j,
-          ZMod.natCast_zmod_val k]
-    have hlt : fiberSum m i.val j.val k.val < m := by
-      unfold fiberSum
-      exact Nat.mod_lt _ hmpos
-    have hvals :
-        (((fiberSum m i.val j.val k.val : Nat) : ZMod m)).val = (i + j + k).val := by
-      exact congrArg ZMod.val hcast
-    rw [ZMod.val_natCast_of_lt hlt] at hvals
-    exact hvals.symm
-  have hsub2fib : (fiberIndex z).val = m - 2 := by
-    rw [hfib, hz]
-  have htle : t ≤ m - 3 := by
+intro t ht
+letI : NeZero m := neZero_of_admissibleEvenM m hm  
+let v := succPow (pure012LocalRule m) c t (canonicalEvenWitnessCandidate m c z).1
+have hm8 : 8 ≤ m := hm.1
+have hfib :
+    (fiberIndex z).val = vertexFiberSum m z := by
+  rcases z with ⟨i, j, k⟩
+  change (i + j + k).val = fiberSum m i.val j.val k.val
+  have hmpos : 0 < m := by
+    rcases hm with ⟨hm8, _⟩
     omega
-  have hsum : fiberSum m v.1.val v.2.1.val v.2.2.val = t := by
-    simpa [v] using htrack t ht
-  simpa [v] using
-    (not_residualSupport_of_le_msub3
-      (m := m) (i := v.1.val) (j := v.2.1.val) (k := v.2.2.val) hm8 (by
-        rw [hsum]
-        exact htle))
+  have hcast :
+      (((fiberSum m i.val j.val k.val : Nat) : ZMod m)) = i + j + k := by
+    unfold fiberSum
+    have hmod :
+        ((((i.val + j.val + k.val) % m : Nat) : ZMod m))
+          =
+        (((i.val + j.val + k.val : Nat) : ZMod m)) := by
+      simp
+    rw [hmod]
+    rw [Nat.cast_add, Nat.cast_add]
+    rw [ZMod.natCast_zmod_val i,
+        ZMod.natCast_zmod_val j,
+        ZMod.natCast_zmod_val k]
+  have hlt : fiberSum m i.val j.val k.val < m := by
+    unfold fiberSum      exact Nat.mod_lt _ hmpos
+  have hvals :
+      (((fiberSum m i.val j.val k.val : Nat) : ZMod m)).val = (i + j + k).val := by
+    exact congrArg ZMod.val hcast
+  rw [ZMod.val_natCast_of_lt hlt] at hvals
+  exact hvals.symm
+have hsub2fib : (fiberIndex z).val = m - 2 := by
+  rw [hfib, hz]
+have htle : t ≤ m - 3 := by
+  omega
+have hsum : fiberSum m v.1.val v.2.1.val v.2.2.val = t := by
+  simpa [v] using htrack t ht
+simpa [v] using
+  (not_residualSupport_of_le_msub3
+    (m := m) (i := v.1.val) (j := v.2.1.val) (k := v.2.2.val) hm8 (by
+      rw [hsum]
+      exact htle))
 
 theorem canonicalEvenExceptionalWitnesses_msub2_allColors
     (m : Nat) (hm : admissibleEvenM m) :
