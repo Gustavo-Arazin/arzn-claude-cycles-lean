@@ -340,4 +340,10 @@ theorem canonicalEvenTrivialBranchCoincidenceAllColors_all
     m hm
     (canonicalEvenTrivialBranchArithmeticTargets_all m hm)
 
+theorem canonicalEvenCompletionTargets_of_exceptionalWitnesses
+    (m : Nat) (hm : admissibleEvenM m)
+    (hexc : CanonicalEvenExceptionalWitnessesAllColors m) :
+    CanonicalEvenCompletionTargets m := by
+  exact ⟨canonicalEvenTrivialBranchCoincidenceAllColors_all m hm, hexc⟩
+
 end ClaudeCyclesARZN
