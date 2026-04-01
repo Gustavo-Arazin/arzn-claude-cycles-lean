@@ -1,6 +1,6 @@
 - Status: CI green
 - Fase atual: M3 canonical even rule
-- Checkpoint atual: trivial-branch tracking completo + arithmetic targets + coincidence all-colors fechados
+- Checkpoint atual: trivial branch fechado + witness exceptional em F_{m-2} fechada + completion target reduzido ao único caso restante F_{m-1}
 - Lean artifacts fechados nesta fase:
   - EvenRule.lean
   - EvenRuleFacts.lean
@@ -46,18 +46,21 @@
   - tracking de color0 isolado em mod-core e fechado
   - tracking de color1 isolado em mod-core e fechado
   - tracking de color2 isolado em mod-core e fechado
+  - tracking completo por cor disponível sem hipótese de ramo trivial
   - recomposição de CanonicalEvenTrivialBranchTrackingColorCases m fechada
   - CanonicalEvenTrivialBranchArithmeticTargets m fechado
   - CanonicalEvenTrivialBranchCoincidenceAllColors m fechado
+  - witness exceptional em F_{m-2} fechada para todas as cores
+  - CanonicalEvenCompletionTargets m reduzido formalmente ao único caso restante F_{m-1}
 - Módulos em quarentena / fora do caminho crítico:
   - EvenRuleTrivialBranchArithmeticBound.lean neutralizado
   - EvenRuleTrivialBranchTrackingSolved.lean quarantined e não importado no entrypoint
 - lake-manifest.json corrompido continua removido e não deve ser reintroduzido
 - Próximo passo exato:
-  fechar as witness obligations excepcionais começando por F_{m-1}, o ramo mais simples; depois fechar F_{m-2}; então empacotar CanonicalEvenCompletionTargets, alimentar CanonicalEvenHasResidualNormalForm e aplicar StrongReduction
+  fechar a witness exceptional em F_{m-1}; em seguida, instanciar CanonicalEvenCompletionTargets, alimentar CanonicalEvenHasResidualNormalForm e aplicar StrongReduction
 - Regra operacional:
   - não criar arquivo novo por reflexo
   - um step = um gargalo real fechado
   - priorizar o caminho que reduz complexidade acumulada e preserva CI green
 - Label sugerido do checkpoint:
-  v6-m3-trivial-branch-coincidence-closed
+  v6-m3-fiber-m-sub-2-closed
