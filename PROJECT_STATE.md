@@ -1,6 +1,6 @@
 - Status: CI green
 - Fase atual: M3 canonical even rule
-- Checkpoint atual: trivial branch fechado + witness exceptional em F_{m-2} fechada + completion target reduzido ao único caso restante F_{m-1}
+- Checkpoint atual: trivial branch fechado + witness exceptional em F_{m-2} fechada + completion target reduzido formalmente ao único caso restante F_{m-1}
 - Lean artifacts fechados nesta fase:
   - EvenRule.lean
   - EvenRuleFacts.lean
