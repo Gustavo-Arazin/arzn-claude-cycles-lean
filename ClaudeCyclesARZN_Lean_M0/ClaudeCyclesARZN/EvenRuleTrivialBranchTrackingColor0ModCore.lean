@@ -567,4 +567,24 @@ theorem canonicalEvenExceptionalWitnesses_msub2_allColors
   exact canonicalEvenWitnessAt_of_trivialBranchPure012Coincides
     m c hm z hcoinc
 
+theorem canonicalEvenExceptionalWitnesses_all_of_msub1
+    (m : Nat) (hm : admissibleEvenM m)
+    (hsub1 :
+      ∀ c : Color, ∀ z : VZ m,
+        vertexFiberSum m z = m - 1 →
+        CanonicalEvenWitnessAt m c z) :
+    CanonicalEvenExceptionalWitnessesAllColors m := by
+  exact ⟨canonicalEvenExceptionalWitnesses_msub2_allColors m hm, hsub1⟩
+
+theorem canonicalEvenCompletionTargets_of_msub1
+    (m : Nat) (hm : admissibleEvenM m)
+    (hsub1 :
+      ∀ c : Color, ∀ z : VZ m,
+        vertexFiberSum m z = m - 1 →
+        CanonicalEvenWitnessAt m c z) :
+    CanonicalEvenCompletionTargets m := by
+  exact canonicalEvenCompletionTargets_of_exceptionalWitnesses
+    m hm
+    (canonicalEvenExceptionalWitnesses_all_of_msub1 m hm hsub1)
+
 end ClaudeCyclesARZN
