@@ -1,6 +1,6 @@
 - Status: CI green
 - Fase atual: M3 canonical even rule
-- Checkpoint atual: trivial branch fechado + witness exceptional em F_{m-2} fechada + target final reduzido ao penultimate-step target de F_{m-1}
+- Checkpoint atual: trivial branch fechado + witness exceptional em F_{m-2} fechada + target final reduzido ao pure tau-step target de F_{m-1}
 - Lean artifacts fechados nesta fase:
   - EvenRule.lean
   - EvenRuleFacts.lean
@@ -51,16 +51,16 @@
   - CanonicalEvenTrivialBranchArithmeticTargets m fechado
   - CanonicalEvenTrivialBranchCoincidenceAllColors m fechado
   - witness exceptional em F_{m-2} fechada para todas as cores
-  - target final de F_{m-1} reduzido ao penultimate-step target
+  - target final de F_{m-1} reduzido ao pure tau-step target
 - Módulos em quarentena / fora do caminho crítico:
   - EvenRuleTrivialBranchArithmeticBound.lean neutralizado
   - EvenRuleTrivialBranchTrackingSolved.lean quarantined e não importado no entrypoint
 - lake-manifest.json corrompido continua removido e não deve ser reintroduzido
 - Próximo passo exato:
-  provar CanonicalEvenExceptionalPenultimateMSub1AllColors; em seguida derivar CanonicalEvenExceptionalCandidateHitsMSub1AllColors, fechar a witness exceptional em F_{m-1}, instanciar CanonicalEvenCompletionTargets, alimentar CanonicalEvenHasResidualNormalForm e aplicar StrongReduction
+  provar CanonicalEvenExceptionalTauStepMSub1AllColors; em seguida derivar CanonicalEvenExceptionalPenultimateMSub1AllColors, CanonicalEvenExceptionalCandidateHitsMSub1AllColors, fechar a witness exceptional em F_{m-1}, instanciar CanonicalEvenCompletionTargets, alimentar CanonicalEvenHasResidualNormalForm e aplicar StrongReduction
 - Regra operacional:
   - não criar arquivo novo por reflexo
   - um step = um gargalo real fechado
   - priorizar o caminho que reduz complexidade acumulada e preserva CI green
 - Label sugerido do checkpoint:
-  v6-m3-fiber-m-sub-1-penultimate-target
+  v6-m3-fiber-m-sub-1-tau-step-target
