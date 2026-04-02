@@ -587,4 +587,50 @@ theorem canonicalEvenCompletionTargets_of_msub1
     m hm
     (canonicalEvenExceptionalWitnesses_all_of_msub1 m hm hsub1)
 
+/--
+Named penultimate-step target for the final exceptional branch `F_{m-1}`.
+
+For a target vertex `z ∈ F_{m-1}`, after `m - 2` concrete successor steps
+from the explicit candidate on `F₀`, it remains only to verify that one final
+successor step lands exactly on `z`.
+-/
+def CanonicalEvenExceptionalPenultimateMSub1AllColors (m : Nat) : Prop :=
+  ∀ c : Color, ∀ z : VZ m,
+    vertexFiberSum m z = m - 1 →
+    succ (evenRuleLocalRule m) c
+      ((residualMapFromFiberZero
+        (evenRuleLocalRule m) c (m - 2)
+        (canonicalEvenWitnessCandidate m c z)).1) = z
+
+theorem canonicalEvenExceptionalCandidateHits_msub1_allColors_of_penultimate
+    (m : Nat) (hm : admissibleEvenM m)
+    (hpen : CanonicalEvenExceptionalPenultimateMSub1AllColors m) :
+    CanonicalEvenExceptionalCandidateHitsMSub1AllColors m := by
+  intro c z hz
+  unfold canonicalEvenCandidateHits
+  have hfib : (fiberIndex z).val = m - 1 := by
+    rw [fiberIndex_val_eq_vertexFiberSum m hm z, hz]
+  have hmsub : m - 1 = (m - 2) + 1 := by
+    omega
+  rw [hfib, hmsub, residualMapFromFiberZero_val, succPow_succ]
+  simpa [residualMapFromFiberZero_val] using hpen c z hz
+
+theorem canonicalEvenExceptionalWitnesses_msub1_allColors_of_penultimate
+    (m : Nat) (hm : admissibleEvenM m)
+    (hpen : CanonicalEvenExceptionalPenultimateMSub1AllColors m) :
+    ∀ c : Color, ∀ z : VZ m,
+      vertexFiberSum m z = m - 1 →
+      CanonicalEvenWitnessAt m c z := by
+  exact canonicalEvenExceptionalWitnesses_msub1_allColors_of_candidateHits
+    m
+    (canonicalEvenExceptionalCandidateHits_msub1_allColors_of_penultimate m hm hpen)
+
+theorem canonicalEvenCompletionTargets_of_penultimateMSub1
+    (m : Nat) (hm : admissibleEvenM m)
+    (hpen : CanonicalEvenExceptionalPenultimateMSub1AllColors m) :
+    CanonicalEvenCompletionTargets m := by
+  exact canonicalEvenCompletionTargets_of_msub1
+    m hm
+    (canonicalEvenExceptionalWitnesses_msub1_allColors_of_penultimate m hm hpen)
+
 end ClaudeCyclesARZN
