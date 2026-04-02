@@ -634,4 +634,78 @@ theorem canonicalEvenCompletionTargets_of_penultimateMSub1
     m hm
     (canonicalEvenExceptionalWitnesses_msub1_allColors_of_penultimate m hm hpen)
 
+/--
+Named final local target for the `F_{m-1}` branch.
+
+At the penultimate vertex reached after `m - 2` concrete successor steps from the
+explicit candidate, the only remaining work is to show that the local rule on
+`F_{m-2}` selects the tau-layer axis that bumps exactly to the target `z ∈ F_{m-1}`.
+-/
+def CanonicalEvenExceptionalTauStepMSub1AllColors (m : Nat) : Prop :=
+  ∀ c : Color, ∀ z : VZ m,
+    vertexFiberSum m z = m - 1 →
+    let w :=
+      (residualMapFromFiberZero
+        (evenRuleLocalRule m) c (m - 2)
+        (canonicalEvenWitnessCandidate m c z)).1
+    bump (axisOfLocalPerm (tauLayerCode m w.1.val w.2.1.val) c) w = z
+
+theorem canonicalEvenExceptionalPenultimateVertex_msub2
+    (m : Nat) (hm : admissibleEvenM m) (c : Color) (z : VZ m) :
+    vertexFiberSum m
+      ((residualMapFromFiberZero
+        (evenRuleLocalRule m) c (m - 2)
+        (canonicalEvenWitnessCandidate m c z)).1) = m - 2 := by
+  letI : NeZero m := neZero_of_admissibleEvenM m hm
+  let w :=
+    (residualMapFromFiberZero
+      (evenRuleLocalRule m) c (m - 2)
+      (canonicalEvenWitnessCandidate m c z)).1
+  have hmem0 : (canonicalEvenWitnessCandidate m c z).1 ∈ Fiber m 0 := by
+    exact canonicalEvenWitnessCandidate_mem m c z
+  have hmem : w ∈ Fiber m ((m - 2 : Nat) : ZMod m) := by
+    simpa [w, residualMapFromFiberZero_val] using
+      (succPow_maps_fiber
+        (σ := evenRuleLocalRule m) (c := c) (n := m - 2)
+        (s := (0 : ZMod m)) hmem0)
+  have hmod : fiberIndex w = ((m - 2 : Nat) : ZMod m) := by
+    simpa [Fiber] using hmem
+  have hcast : (((m - 2 : Nat) : ZMod m)).val = m - 2 := by
+    rcases hm with ⟨hm8, _⟩
+    exact ZMod.val_natCast_of_lt (by omega)
+  have hval : (fiberIndex w).val = m - 2 := by
+    have hvals : (fiberIndex w).val = (((m - 2 : Nat) : ZMod m)).val := by
+      exact congrArg ZMod.val hmod
+    simpa [hcast] using hvals
+  rw [← fiberIndex_val_eq_vertexFiberSum m hm w]
+  exact hval
+
+theorem canonicalEvenExceptionalPenultimateMSub1AllColors_of_tauStep
+    (m : Nat) (hm : admissibleEvenM m)
+    (htau : CanonicalEvenExceptionalTauStepMSub1AllColors m) :
+    CanonicalEvenExceptionalPenultimateMSub1AllColors m := by
+  intro c z hz
+  let w :=
+    (residualMapFromFiberZero
+      (evenRuleLocalRule m) c (m - 2)
+      (canonicalEvenWitnessCandidate m c z)).1
+  have hw : vertexFiberSum m w = m - 2 := by
+    simpa [w] using canonicalEvenExceptionalPenultimateVertex_msub2 m hm c z
+  have hloc :
+      evenRuleLocalRule m w c =
+        axisOfLocalPerm (tauLayerCode m w.1.val w.2.1.val) c := by
+    exact evenRuleLocalRule_of_eq_msub2 m w hm c hw
+  change succ (evenRuleLocalRule m) c w = z
+  unfold succ
+  rw [hloc]
+  simpa [w] using htau c z hz
+
+theorem canonicalEvenCompletionTargets_of_tauStepMSub1
+    (m : Nat) (hm : admissibleEvenM m)
+    (htau : CanonicalEvenExceptionalTauStepMSub1AllColors m) :
+    CanonicalEvenCompletionTargets m := by
+  exact canonicalEvenCompletionTargets_of_penultimateMSub1
+    m hm
+    (canonicalEvenExceptionalPenultimateMSub1AllColors_of_tauStep m hm htau)
+
 end ClaudeCyclesARZN
