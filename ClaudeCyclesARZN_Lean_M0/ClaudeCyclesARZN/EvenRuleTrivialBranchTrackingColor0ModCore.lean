@@ -611,6 +611,7 @@ theorem canonicalEvenExceptionalCandidateHits_msub1_allColors_of_penultimate
   have hfib : (fiberIndex z).val = m - 1 := by
     rw [fiberIndex_val_eq_vertexFiberSum m hm z, hz]
   have hmsub : m - 1 = (m - 2) + 1 := by
+    rcases hm with ⟨hm8, _⟩
     omega
   rw [hfib, hmsub, residualMapFromFiberZero_val, succPow_succ]
   simpa [residualMapFromFiberZero_val] using hpen c z hz
