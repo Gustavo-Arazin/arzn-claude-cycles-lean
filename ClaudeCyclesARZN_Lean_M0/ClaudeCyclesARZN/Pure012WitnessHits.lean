@@ -55,4 +55,34 @@ theorem pure012CandidateHits_allColors
   · simpa using pure012CandidateHits_color1 m hm z
   · simpa using pure012CandidateHits_color2 m hm z
 
+/--
+Penultimate-step form of the pure `012` hit on the final exceptional branch `F_{m-1}`.
+
+This is the exact one-step-before-the-end version of `pure012CandidateHits`:
+after `m - 2` residual successor steps from the explicit candidate on `F₀`,
+one final pure-`012` successor lands on the target vertex.
+-/
+def pure012ExceptionalPenultimateMSub1AllColors (m : Nat) : Prop :=
+  ∀ c : Color, ∀ z : VZ m,
+    vertexFiberSum m z = m - 1 →
+    succ (pure012LocalRule m) c
+      ((residualMapFromFiberZero
+        (pure012LocalRule m) c (m - 2)
+        (canonicalEvenWitnessCandidate m c z)).1) = z
+
+theorem pure012ExceptionalPenultimateMSub1AllColors_all
+    (m : Nat) (hm : admissibleEvenM m) :
+    pure012ExceptionalPenultimateMSub1AllColors m := by
+  intro c z hz
+  have hhits : pure012CandidateHits m c z := by
+    exact pure012CandidateHits_allColors m hm c z
+  have hfib : (fiberIndex z).val = m - 1 := by
+    simpa [vertexFiberSum] using hz
+  have hmsub : m - 1 = (m - 2) + 1 := by
+    rcases hm with ⟨hm8, _⟩
+    omega
+  unfold pure012CandidateHits at hhits
+  rw [hfib, hmsub, residualMapFromFiberZero_val, succPow_succ] at hhits
+  simpa [residualMapFromFiberZero_val] using hhits
+
 end ClaudeCyclesARZN
