@@ -708,4 +708,75 @@ theorem canonicalEvenCompletionTargets_of_tauStepMSub1
     m hm
     (canonicalEvenExceptionalPenultimateMSub1AllColors_of_tauStep m hm htau)
 
+/--
+Named agreement target for the penultimate vertex on the final exceptional branch `F_{m-1}`.
+
+Up to time `m - 2`, the concrete residual lift and the pure `012` residual lift
+start from the same explicit candidate on `F₀`; this target asks them to agree
+on the penultimate vertex.
+-/
+def CanonicalEvenExceptionalPenultimateAgreementMSub1AllColors (m : Nat) : Prop :=
+  ∀ c : Color, ∀ z : VZ m,
+    vertexFiberSum m z = m - 1 →
+    (residualMapFromFiberZero
+      (evenRuleLocalRule m) c (m - 2)
+      (canonicalEvenWitnessCandidate m c z)).1
+      =
+    (residualMapFromFiberZero
+      (pure012LocalRule m) c (m - 2)
+      (canonicalEvenWitnessCandidate m c z)).1
+
+/--
+Named local-axis target for the final exceptional branch `F_{m-1}`.
+
+At the concrete penultimate vertex on `F_{m-2}`, the tau-layer axis selected by the
+canonical even rule must match the pure `012` axis for the corresponding color.
+-/
+def CanonicalEvenExceptionalTauAxisMatchesPure012MSub1AllColors (m : Nat) : Prop :=
+  ∀ c : Color, ∀ z : VZ m,
+    vertexFiberSum m z = m - 1 →
+    let w :=
+      (residualMapFromFiberZero
+        (evenRuleLocalRule m) c (m - 2)
+        (canonicalEvenWitnessCandidate m c z)).1
+    axisOfLocalPerm (tauLayerCode m w.1.val w.2.1.val) c =
+      axisOfLocalPerm LocalPerm.p012 c
+
+theorem canonicalEvenExceptionalTauStepMSub1AllColors_of_agreement_and_axisMatch
+    (m : Nat) (hm : admissibleEvenM m)
+    (hag : CanonicalEvenExceptionalPenultimateAgreementMSub1AllColors m)
+    (haxis : CanonicalEvenExceptionalTauAxisMatchesPure012MSub1AllColors m) :
+    CanonicalEvenExceptionalTauStepMSub1AllColors m := by
+  intro c z hz
+  let wc :=
+    (residualMapFromFiberZero
+      (evenRuleLocalRule m) c (m - 2)
+      (canonicalEvenWitnessCandidate m c z)).1
+  let wp :=
+    (residualMapFromFiberZero
+      (pure012LocalRule m) c (m - 2)
+      (canonicalEvenWitnessCandidate m c z)).1
+  have hw : wc = wp := by
+    simpa [wc, wp] using hag c z hz
+  have hax :
+      axisOfLocalPerm (tauLayerCode m wc.1.val wc.2.1.val) c =
+        axisOfLocalPerm LocalPerm.p012 c := by
+    simpa [wc] using haxis c z hz
+  have hpure :
+      succ (pure012LocalRule m) c wp = z := by
+    exact pure012ExceptionalPenultimateMSub1AllColors_all m hm c z hz
+  change bump (axisOfLocalPerm (tauLayerCode m wc.1.val wc.2.1.val) c) wc = z
+  rw [hax, hw]
+  simpa [succ, pure012LocalRule] using hpure
+
+theorem canonicalEvenCompletionTargets_of_agreement_and_tauAxisMSub1
+    (m : Nat) (hm : admissibleEvenM m)
+    (hag : CanonicalEvenExceptionalPenultimateAgreementMSub1AllColors m)
+    (haxis : CanonicalEvenExceptionalTauAxisMatchesPure012MSub1AllColors m) :
+    CanonicalEvenCompletionTargets m := by
+  exact canonicalEvenCompletionTargets_of_tauStepMSub1
+    m hm
+    (canonicalEvenExceptionalTauStepMSub1AllColors_of_agreement_and_axisMatch
+      m hm hag haxis)
+
 end ClaudeCyclesARZN
