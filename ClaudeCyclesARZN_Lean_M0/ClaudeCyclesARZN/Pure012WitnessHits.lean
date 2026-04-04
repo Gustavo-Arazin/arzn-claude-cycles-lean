@@ -77,6 +77,35 @@ theorem pure012ExceptionalPenultimateMSub1AllColors_all
   have hhits : pure012CandidateHits m c z := by
     exact pure012CandidateHits_allColors m hm c z
   have hfib : (fiberIndex z).val = m - 1 := by
+    letI : NeZero m := neZero_of_admissibleEvenM m hm
+    rcases z with ⟨i, j, k⟩
+    change (i + j + k : ZMod m).val = m - 1
+    have hmpos : 0 < m := by
+      rcases hm with ⟨hm8, _⟩
+      omega
+    have hcast :
+        (((fiberSum m i.val j.val k.val : Nat) : ZMod m)) = i + j + k := by
+      unfold fiberSum
+      have hmod :
+          ((((i.val + j.val + k.val) % m : Nat) : ZMod m))
+            =
+          (((i.val + j.val + k.val : Nat) : ZMod m)) := by
+        simp
+      rw [hmod]
+      rw [Nat.cast_add, Nat.cast_add]
+      rw [ZMod.natCast_zmod_val i,
+          ZMod.natCast_zmod_val j,
+          ZMod.natCast_zmod_val k]
+    have hlt : fiberSum m i.val j.val k.val < m := by
+      unfold fiberSum
+      exact Nat.mod_lt _ hmpos
+    have hvals :
+        (((fiberSum m i.val j.val k.val : Nat) : ZMod m)).val = (i + j + k).val := by
+      exact congrArg ZMod.val hcast
+    have hval : (i + j + k : ZMod m).val = fiberSum m i.val j.val k.val := by
+      rw [ZMod.val_natCast_of_lt hlt] at hvals
+      exact hvals.symm
+    rw [hval]
     simpa [vertexFiberSum] using hz
   have hmsub : m - 1 = (m - 2) + 1 := by
     rcases hm with ⟨hm8, _⟩
