@@ -401,7 +401,7 @@ theorem canonicalEvenTrivialBranchTrackingColorCases_of_modCoreColor0Color1
   · exact canonicalEvenTrivialBranchTrackingColor1Target_of_modCore m hm h1
   · exact h2
 
-theorem canonicalEvenTrivialBranchTrackingColorCases_of_modCoreColor0Color1Color2
+theorem canonicalEvenTrivialBranchTrackingColorCases_of_allModCores
     (m : Nat) (hm : admissibleEvenM m)
     (h0 : CanonicalEvenTrivialBranchTrackingColor0ModCore m)
     (h1 : CanonicalEvenTrivialBranchTrackingColor1ModCore m)
@@ -415,57 +415,18 @@ theorem canonicalEvenTrivialBranchTrackingColorCases_of_modCoreColor0Color1Color
 theorem canonicalEvenTrivialBranchTrackingColorCases_all
     (m : Nat) (hm : admissibleEvenM m) :
     CanonicalEvenTrivialBranchTrackingColorCases m := by
-  exact canonicalEvenTrivialBranchTrackingColorCases_of_modCoreColor0Color1Color2
+  exact canonicalEvenTrivialBranchTrackingColorCases_of_allModCores
     m hm
     (canonicalEvenTrivialBranchTrackingColor0ModCore_all m hm)
     (canonicalEvenTrivialBranchTrackingColor1ModCore_all m hm)
     (canonicalEvenTrivialBranchTrackingColor2ModCore_all m hm)
 
-theorem canonicalEvenTrivialBranchTargetBound_of_vertexFiberSum
-    (m : Nat) (hm : admissibleEvenM m)
-    {z : VZ m}
-    (hz : vertexFiberSum m z ≤ m - 3) :
-    trivialBranchTargetBoundAt m z := by
-  letI : NeZero m := neZero_of_admissibleEvenM m hm
-  rcases z with ⟨i, j, k⟩
-  change (i + j + k : ZMod m).val ≤ m - 3
-  have hmpos : 0 < m := by
-    rcases hm with ⟨hm8, _⟩
-    omega
-  have hcast :
-      (((fiberSum m i.val j.val k.val : Nat) : ZMod m)) = i + j + k := by
-    unfold fiberSum
-    have hmod :
-        ((((i.val + j.val + k.val) % m : Nat) : ZMod m))
-          =
-        (((i.val + j.val + k.val : Nat) : ZMod m)) := by
-      simp
-    rw [hmod]
-    rw [Nat.cast_add, Nat.cast_add]
-    rw [ZMod.natCast_zmod_val i,
-        ZMod.natCast_zmod_val j,
-        ZMod.natCast_zmod_val k]
-  have hsumlt : fiberSum m i.val j.val k.val < m := by
-    unfold fiberSum
-    exact Nat.mod_lt _ hmpos
-  have hval :
-      (i + j + k : ZMod m).val = fiberSum m i.val j.val k.val := by
-    have hvals :
-        ((((fiberSum m i.val j.val k.val : Nat) : ZMod m)).val)
-          = (i + j + k : ZMod m).val := by
-      exact congrArg ZMod.val hcast
-    rw [ZMod.val_natCast_of_lt hsumlt] at hvals
-    exact hvals.symm
-  rw [hval]
-  simpa [vertexFiberSum] using hz
-
 theorem canonicalEvenTrivialBranchArithmeticTargets_all
     (m : Nat) (hm : admissibleEvenM m) :
     CanonicalEvenTrivialBranchArithmeticTargets m := by
-  apply canonicalEvenTrivialBranchArithmeticTargets_of_bound_and_colorCases
-  · intro z hz
-    exact canonicalEvenTrivialBranchTargetBound_of_vertexFiberSum m hm hz
-  · exact canonicalEvenTrivialBranchTrackingColorCases_all m hm
+  exact canonicalEvenTrivialBranchArithmeticTargets_of_trackingColorCases
+    m
+    (canonicalEvenTrivialBranchTrackingColorCases_all m hm)
 
 theorem canonicalEvenTrivialBranchCoincidenceAllColors_all
     (m : Nat) (hm : admissibleEvenM m) :
@@ -474,11 +435,23 @@ theorem canonicalEvenTrivialBranchCoincidenceAllColors_all
     m hm
     (canonicalEvenTrivialBranchArithmeticTargets_all m hm)
 
-theorem canonicalEvenCompletionTargets_of_exceptionalWitnesses
-    (m : Nat) (hm : admissibleEvenM m)
-    (hexc : CanonicalEvenExceptionalWitnessesAllColors m) :
-    CanonicalEvenCompletionTargets m := by
-  exact ⟨canonicalEvenTrivialBranchCoincidenceAllColors_all m hm, hexc⟩
+theorem canonicalEvenExceptionalCandidateHitsMSub2AllColors_all
+    (m : Nat) (hm : admissibleEvenM m) :
+    ∀ c : Color, ∀ z : VZ m,
+      vertexFiberSum m z = m - 2 →
+      canonicalEvenCandidateHits m c z := by
+  exact canonicalEvenExceptionalCandidateHitsMSub2AllColors_of_pure012
+    m hm
+    (canonicalEvenTrivialBranchCoincidenceAllColors_all m hm)
+
+theorem canonicalEvenExceptionalWitnessesMSub2AllColors_all
+    (m : Nat) (hm : admissibleEvenM m) :
+    ∀ c : Color, ∀ z : VZ m,
+      vertexFiberSum m z = m - 2 →
+      CanonicalEvenWitnessAt m c z := by
+  exact canonicalEvenExceptionalWitnesses_msub2_allColors_of_candidateHits
+    m
+    (canonicalEvenExceptionalCandidateHitsMSub2AllColors_all m hm)
 
 theorem canonicalEvenCompletionTargets_all_of_exceptionalWitnesses
     (m : Nat) (hm : admissibleEvenM m)
@@ -742,6 +715,40 @@ def CanonicalEvenExceptionalTauAxisMatchesPure012MSub1AllColors (m : Nat) : Prop
     axisOfLocalPerm (tauLayerCode m w.1.val w.2.1.val) c =
       axisOfLocalPerm LocalPerm.p012 c
 
+theorem canonicalEvenExceptionalPenultimateAgreementMSub1AllColors_all
+    (m : Nat) (hm : admissibleEvenM m) :
+    CanonicalEvenExceptionalPenultimateAgreementMSub1AllColors m := by
+  intro c z hz
+  rw [residualMapFromFiberZero_val, residualMapFromFiberZero_val]
+  have hfib : (fiberIndex z).val = m - 1 := by
+    rw [fiberIndex_val_eq_vertexFiberSum m hm z, hz]
+  apply succPow_eq_of_prefixAgreement
+  intro t ht
+  let v := succPow (pure012LocalRule m) c t (canonicalEvenWitnessCandidate m c z).1
+  have hm8 : 8 ≤ m := hm.1
+  have htle : t ≤ m - 3 := by
+    rw [hfib] at ht
+    omega
+  have htz : t < (fiberIndex z).val := by
+    rw [hfib]
+    omega
+  have htrack : trivialBranchPrefixFiberTrackingAt m c z := by
+    exact canonicalEvenTrivialBranchTracking_allColors_unbounded m hm c z
+  have hsum : fiberSum m v.1.val v.2.1.val v.2.2.val = t := by
+    simpa [v] using htrack t htz
+  have hfalse : residualSupport m v.1.val v.2.1.val v.2.2.val = false := by
+    apply not_residualSupport_of_le_msub3
+      (m := m) (i := v.1.val) (j := v.2.1.val) (k := v.2.2.val) hm8
+    rw [hsum]
+    exact htle
+  have hconcrete :
+      evenRuleLocalRule m v c = axisOfLocalPerm LocalPerm.p012 c := by
+    exact evenRuleLocalRule_of_not_residualSupport m v hm c hfalse
+  have hpure :
+      pure012LocalRule m v c = axisOfLocalPerm LocalPerm.p012 c := by
+    simp [pure012LocalRule]
+  exact hconcrete.trans hpure.symm
+
 theorem canonicalEvenExceptionalTauStepMSub1AllColors_of_agreement_and_axisMatch
     (m : Nat) (hm : admissibleEvenM m)
     (hag : CanonicalEvenExceptionalPenultimateAgreementMSub1AllColors m)
@@ -768,6 +775,23 @@ theorem canonicalEvenExceptionalTauStepMSub1AllColors_of_agreement_and_axisMatch
   change bump (axisOfLocalPerm (tauLayerCode m wc.1.val wc.2.1.val) c) wc = z
   rw [hax, hw]
   simpa [succ, pure012LocalRule] using hpure
+
+theorem canonicalEvenExceptionalTauStepMSub1AllColors_of_tauAxisMatch
+    (m : Nat) (hm : admissibleEvenM m)
+    (haxis : CanonicalEvenExceptionalTauAxisMatchesPure012MSub1AllColors m) :
+    CanonicalEvenExceptionalTauStepMSub1AllColors m := by
+  exact canonicalEvenExceptionalTauStepMSub1AllColors_of_agreement_and_axisMatch
+    m hm
+    (canonicalEvenExceptionalPenultimateAgreementMSub1AllColors_all m hm)
+    haxis
+
+theorem canonicalEvenCompletionTargets_of_tauAxisMSub1
+    (m : Nat) (hm : admissibleEvenM m)
+    (haxis : CanonicalEvenExceptionalTauAxisMatchesPure012MSub1AllColors m) :
+    CanonicalEvenCompletionTargets m := by
+  exact canonicalEvenCompletionTargets_of_tauStepMSub1
+    m hm
+    (canonicalEvenExceptionalTauStepMSub1AllColors_of_tauAxisMatch m hm haxis)
 
 theorem canonicalEvenCompletionTargets_of_agreement_and_tauAxisMSub1
     (m : Nat) (hm : admissibleEvenM m)
