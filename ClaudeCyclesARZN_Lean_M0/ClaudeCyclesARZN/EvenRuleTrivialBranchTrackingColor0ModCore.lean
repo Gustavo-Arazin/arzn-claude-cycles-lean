@@ -774,23 +774,6 @@ theorem canonicalEvenExceptionalPenultimateAgreementMSub1AllColors_all
     simp [pure012LocalRule]
   exact hconcrete.trans hpure.symm
 
-theorem canonicalEvenExceptionalTauStepMSub1AllColors_of_tauAxisMatch
-    (m : Nat) (hm : admissibleEvenM m)
-    (haxis : CanonicalEvenExceptionalTauAxisMatchesPure012MSub1AllColors m) :
-    CanonicalEvenExceptionalTauStepMSub1AllColors m := by
-  exact canonicalEvenExceptionalTauStepMSub1AllColors_of_agreement_and_axisMatch
-    m hm
-    (canonicalEvenExceptionalPenultimateAgreementMSub1AllColors_all m hm)
-    haxis
-
-theorem canonicalEvenCompletionTargets_of_tauAxisMSub1
-    (m : Nat) (hm : admissibleEvenM m)
-    (haxis : CanonicalEvenExceptionalTauAxisMatchesPure012MSub1AllColors m) :
-    CanonicalEvenCompletionTargets m := by
-  exact canonicalEvenCompletionTargets_of_tauStepMSub1
-    m hm
-    (canonicalEvenExceptionalTauStepMSub1AllColors_of_tauAxisMatch m hm haxis)
-
 theorem canonicalEvenExceptionalTauStepMSub1AllColors_of_agreement_and_axisMatch
     (m : Nat) (hm : admissibleEvenM m)
     (hag : CanonicalEvenExceptionalPenultimateAgreementMSub1AllColors m)
@@ -817,6 +800,23 @@ theorem canonicalEvenExceptionalTauStepMSub1AllColors_of_agreement_and_axisMatch
   change bump (axisOfLocalPerm (tauLayerCode m wc.1.val wc.2.1.val) c) wc = z
   rw [hax, hw]
   simpa [succ, pure012LocalRule] using hpure
+
+theorem canonicalEvenExceptionalTauStepMSub1AllColors_of_tauAxisMatch
+    (m : Nat) (hm : admissibleEvenM m)
+    (haxis : CanonicalEvenExceptionalTauAxisMatchesPure012MSub1AllColors m) :
+    CanonicalEvenExceptionalTauStepMSub1AllColors m := by
+  exact canonicalEvenExceptionalTauStepMSub1AllColors_of_agreement_and_axisMatch
+    m hm
+    (canonicalEvenExceptionalPenultimateAgreementMSub1AllColors_all m hm)
+    haxis
+
+theorem canonicalEvenCompletionTargets_of_tauAxisMSub1
+    (m : Nat) (hm : admissibleEvenM m)
+    (haxis : CanonicalEvenExceptionalTauAxisMatchesPure012MSub1AllColors m) :
+    CanonicalEvenCompletionTargets m := by
+  exact canonicalEvenCompletionTargets_of_tauStepMSub1
+    m hm
+    (canonicalEvenExceptionalTauStepMSub1AllColors_of_tauAxisMatch m hm haxis)
 
 theorem canonicalEvenCompletionTargets_of_agreement_and_tauAxisMSub1
     (m : Nat) (hm : admissibleEvenM m)
