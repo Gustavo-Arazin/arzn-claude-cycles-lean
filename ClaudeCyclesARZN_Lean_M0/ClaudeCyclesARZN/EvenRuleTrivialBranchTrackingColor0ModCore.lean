@@ -828,4 +828,62 @@ theorem canonicalEvenCompletionTargets_of_agreement_and_tauAxisMSub1
     (canonicalEvenExceptionalTauStepMSub1AllColors_of_agreement_and_axisMatch
       m hm hag haxis)
 
+/--
+Correct final witness route for the `F_{m-1}` branch.
+
+Instead of requiring a global tau-vs-`012` axis match at the penultimate vertex,
+it is enough to exhibit, for each `z ∈ F_{m-1}`, a predecessor `w ∈ F_{m-2}`
+that already has a canonical-even witness and whose final concrete successor is `z`.
+-/
+def CanonicalEvenExceptionalTauPredecessorWitnessMSub1AllColors (m : Nat) : Prop :=
+  ∀ c : Color, ∀ z : VZ m,
+    vertexFiberSum m z = m - 1 →
+    ∃ w : VZ m,
+      vertexFiberSum m w = m - 2 ∧
+      succ (evenRuleLocalRule m) c w = z ∧
+      CanonicalEvenWitnessAt m c w
+
+theorem canonicalEvenExceptionalWitnessAt_msub1_of_tauPredecessor
+    (m : Nat) (hm : admissibleEvenM m)
+    {c : Color} {z w : VZ m}
+    (hz : vertexFiberSum m z = m - 1)
+    (hw : vertexFiberSum m w = m - 2)
+    (hstep : succ (evenRuleLocalRule m) c w = z)
+    (hwit : CanonicalEvenWitnessAt m c w) :
+    CanonicalEvenWitnessAt m c z := by
+  rcases hwit with ⟨y, hy⟩
+  refine ⟨y, ?_⟩
+  have hzfib : (fiberIndex z).val = m - 1 := by
+    rw [fiberIndex_val_eq_vertexFiberSum m hm z, hz]
+  have hwfib : (fiberIndex w).val = m - 2 := by
+    rw [fiberIndex_val_eq_vertexFiberSum m hm w, hw]
+  have hmsub : m - 1 = (m - 2) + 1 := by
+    rcases hm with ⟨hm8, _⟩
+    omega
+  rw [residualMapFromFiberZero_val, hzfib, hmsub, succPow_succ]
+  have hy' : succPow (evenRuleLocalRule m) c (m - 2) y.1 = w := by
+    rw [hwfib] at hy
+    simpa [residualMapFromFiberZero_val] using hy
+  simpa [hy', hstep]
+
+theorem canonicalEvenExceptionalWitnesses_msub1_allColors_of_tauPredecessor
+    (m : Nat) (hm : admissibleEvenM m)
+    (hpred : CanonicalEvenExceptionalTauPredecessorWitnessMSub1AllColors m) :
+    ∀ c : Color, ∀ z : VZ m,
+      vertexFiberSum m z = m - 1 →
+      CanonicalEvenWitnessAt m c z := by
+  intro c z hz
+  rcases hpred c z hz with ⟨w, hw, hstep, hwit⟩
+  exact canonicalEvenExceptionalWitnessAt_msub1_of_tauPredecessor
+    m hm hz hw hstep hwit
+
+theorem canonicalEvenCompletionTargets_of_tauPredecessorWitnessMSub1
+    (m : Nat) (hm : admissibleEvenM m)
+    (hpred : CanonicalEvenExceptionalTauPredecessorWitnessMSub1AllColors m) :
+    CanonicalEvenCompletionTargets m := by
+  exact canonicalEvenCompletionTargets_of_msub1
+    m hm
+    (canonicalEvenExceptionalWitnesses_msub1_allColors_of_tauPredecessor
+      m hm hpred)
+
 end ClaudeCyclesARZN
