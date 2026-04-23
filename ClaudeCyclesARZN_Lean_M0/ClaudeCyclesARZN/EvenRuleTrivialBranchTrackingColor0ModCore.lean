@@ -719,4 +719,35 @@ theorem canonicalEvenCompletionTargets_of_tauPredecessorWitnessMSub1
     (canonicalEvenExceptionalWitnesses_msub1_allColors_of_tauPredecessor
       m hm hpred)
 
+theorem canonicalEvenExceptionalTauStepMSub1AllColors_all
+    (m : Nat) (hm : admissibleEvenM m) :
+    CanonicalEvenExceptionalTauStepMSub1AllColors m := by
+  exact canonicalEvenExceptionalTauStepMSub1AllColors_of_agreement_and_axisMatch
+    m hm
+    (canonicalEvenExceptionalPenultimateAgreementMSub1AllColors_all m hm)
+    (canonicalEvenExceptionalTauAxisMatchesPure012MSub1AllColors_all m hm)
+
+theorem canonicalEvenCompletionTargets_final
+    (m : Nat) (hm : admissibleEvenM m) :
+    CanonicalEvenCompletionTargets m := by
+  exact canonicalEvenCompletionTargets_of_tauStepMSub1
+    m hm
+    (canonicalEvenExceptionalTauStepMSub1AllColors_all m hm)
+
+theorem canonicalEvenHasResidualNormalForm_allColors_final
+    (m : Nat) (hm : admissibleEvenM m) :
+    ∀ c : Color, CanonicalEvenHasResidualNormalForm m c := by
+  exact canonicalEvenHasResidualNormalForm_allColors_of_completionTargets
+    m hm
+    (canonicalEvenCompletionTargets_final m hm)
+
+theorem canonicalEven_globalReachability_allColors_final
+    (m : Nat) (hm : admissibleEvenM m) :
+    ∀ c : Color, ∀ x : FiberZero m,
+      ReturnOrbitCoversFiberZero (evenRuleLocalRule m) c x →
+      GlobalOrbitCoversAllVertices (evenRuleLocalRule m) c x := by
+  exact canonicalEven_globalReachability_allColors_of_completionTargets
+    m hm
+    (canonicalEvenCompletionTargets_final m hm)
+
 end ClaudeCyclesARZN
