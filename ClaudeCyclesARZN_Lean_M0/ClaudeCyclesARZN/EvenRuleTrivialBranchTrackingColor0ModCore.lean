@@ -663,9 +663,10 @@ theorem canonicalEvenCompletionTargets_of_agreement_and_tauAxisMSub1
 /--
 Correct final witness route for the `F_{m-1}` branch.
 
-Instead of requiring a global tau-vs-`012` axis match at the penultimate vertex,
-it is enough to exhibit, for each `z ∈ F_{m-1}`, a predecessor `w ∈ F_{m-2}`
-that already has a canonical-even witness and whose final concrete successor is `z`.
+Instead of forcing a global tau-vs-`012` axis identity, it is enough to show
+that every `z ∈ F_{m-1}` has some predecessor `w ∈ F_{m-2}` which is already
+covered by a canonical-even witness and whose one-step canonical-even successor
+is exactly `z`.
 -/
 def CanonicalEvenExceptionalTauPredecessorWitnessMSub1AllColors (m : Nat) : Prop :=
   ∀ c : Color, ∀ z : VZ m,
@@ -717,143 +718,5 @@ theorem canonicalEvenCompletionTargets_of_tauPredecessorWitnessMSub1
     m hm
     (canonicalEvenExceptionalWitnesses_msub1_allColors_of_tauPredecessor
       m hm hpred)
-
-/--
-Explicit predecessor candidates for the final exceptional branch `F_{m-1}`.
-
-These are the only three possible immediate predecessors of a target vertex `z`:
-decrement the `i`, `j`, or `k` coordinate by one.
--/
-def canonicalEvenExceptionalTauPredecessorXMSub1 (m : Nat) (z : VZ m) : VZ m :=
-  (z.1 - 1, z.2.1, z.2.2)
-
-def canonicalEvenExceptionalTauPredecessorYMSub1 (m : Nat) (z : VZ m) : VZ m :=
-  (z.1, z.2.1 - 1, z.2.2)
-
-def canonicalEvenExceptionalTauPredecessorZMSub1 (m : Nat) (z : VZ m) : VZ m :=
-  (z.1, z.2.1, z.2.2 - 1)
-
-/--
-Explicit chosen predecessor for the final exceptional branch `F_{m-1}`.
-
-We first test the `i`-predecessor, then the `j`-predecessor; if neither already
-maps to `z` under the concrete canonical-even successor, the remaining choice is
-the `k`-predecessor.
--/
-def canonicalEvenExceptionalTauPredecessorMSub1
-    (m : Nat) (c : Color) (z : VZ m) : VZ m :=
-  let wx := canonicalEvenExceptionalTauPredecessorXMSub1 m z
-  let wy := canonicalEvenExceptionalTauPredecessorYMSub1 m z
-  let wz := canonicalEvenExceptionalTauPredecessorZMSub1 m z
-  if succ (evenRuleLocalRule m) c wx = z then wx
-  else if succ (evenRuleLocalRule m) c wy = z then wy
-  else wz
-
-/--
-Named remaining local target for the explicit predecessor formulation on `F_{m-1}`.
-
-This is the concrete version of the predecessor-witness route:
-the chosen predecessor must map to the target vertex in one canonical-even step.
--/
-def CanonicalEvenExceptionalTauPredecessorStepMSub1AllColors (m : Nat) : Prop :=
-  ∀ c : Color, ∀ z : VZ m,
-    vertexFiberSum m z = m - 1 →
-    succ (evenRuleLocalRule m) c
-      (canonicalEvenExceptionalTauPredecessorMSub1 m c z) = z
-
-theorem canonicalEvenExceptionalTauPredecessorWitnessMSub1AllColors_of_explicitStep
-    (m : Nat) (hm : admissibleEvenM m)
-    (hstep : CanonicalEvenExceptionalTauPredecessorStepMSub1AllColors m) :
-    CanonicalEvenExceptionalTauPredecessorWitnessMSub1AllColors m := by
-  intro c z hz
-  refine ⟨canonicalEvenExceptionalTauPredecessorMSub1 m c z, ?_, ?_, ?_⟩
-  · let w := canonicalEvenExceptionalTauPredecessorMSub1 m c z
-    have hstepw : succ (evenRuleLocalRule m) c w = z := by
-      simpa [w] using hstep c z hz
-    have hzfib : (fiberIndex z).val = m - 1 := by
-      rw [fiberIndex_val_eq_vertexFiberSum m hm z, hz]
-    have hzmod : fiberIndex z = ((m - 1 : Nat) : ZMod m) := by
-      rw [← ZMod.natCast_val (fiberIndex z), hzfib]
-    have hfi0 : fiberIndex z = fiberIndex w + 1 := by
-      simpa [w, hstepw] using
-        (fiberIndex_succ (σ := evenRuleLocalRule m) (c := c) w)
-    have hcast1 :
-        (((m - 2 : Nat) : ZMod m) + 1 : ZMod m) = ((m - 1 : Nat) : ZMod m) := by
-      rw [show m - 1 = (m - 2) + 1 by
-            rcases hm with ⟨hm8, _⟩
-            omega, Nat.cast_add]
-      simp
-    have hfi :
-        fiberIndex w + 1 = (((m - 2 : Nat) : ZMod m) + 1 : ZMod m) := by
-      calc
-        fiberIndex w + 1 = fiberIndex z := by
-          symm
-          exact hfi0
-        _ = ((m - 1 : Nat) : ZMod m) := hzmod
-        _ = (((m - 2 : Nat) : ZMod m) + 1 : ZMod m) := by
-          simpa using hcast1.symm
-    have hwmod : fiberIndex w = ((m - 2 : Nat) : ZMod m) := by
-      exact add_right_cancel hfi
-    have hlt : m - 2 < m := by
-      rcases hm with ⟨hm8, _⟩
-      omega
-    have hwval : (fiberIndex w).val = m - 2 := by
-      have hvals :
-          (fiberIndex w).val = (((m - 2 : Nat) : ZMod m)).val := by
-        exact congrArg ZMod.val hwmod
-      simpa [ZMod.val_natCast_of_lt hlt] using hvals
-    rw [← fiberIndex_val_eq_vertexFiberSum m hm w]
-    exact hwval
-  · exact hstep c z hz
-  · exact canonicalEvenExceptionalWitnesses_msub2_allColors
-      m hm c
-      (canonicalEvenExceptionalTauPredecessorMSub1 m c z)
-      (by
-        let w := canonicalEvenExceptionalTauPredecessorMSub1 m c z
-        have hstepw : succ (evenRuleLocalRule m) c w = z := by
-          simpa [w] using hstep c z hz
-        have hzfib : (fiberIndex z).val = m - 1 := by
-          rw [fiberIndex_val_eq_vertexFiberSum m hm z, hz]
-        have hzmod : fiberIndex z = ((m - 1 : Nat) : ZMod m) := by
-          rw [← ZMod.natCast_val (fiberIndex z), hzfib]
-        have hfi0 : fiberIndex z = fiberIndex w + 1 := by
-          simpa [w, hstepw] using
-            (fiberIndex_succ (σ := evenRuleLocalRule m) (c := c) w)
-        have hcast1 :
-            (((m - 2 : Nat) : ZMod m) + 1 : ZMod m) = ((m - 1 : Nat) : ZMod m) := by
-          rw [show m - 1 = (m - 2) + 1 by
-                rcases hm with ⟨hm8, _⟩
-                omega, Nat.cast_add]
-          simp
-        have hfi :
-            fiberIndex w + 1 = (((m - 2 : Nat) : ZMod m) + 1 : ZMod m) := by
-          calc
-            fiberIndex w + 1 = fiberIndex z := by
-              symm
-              exact hfi0
-            _ = ((m - 1 : Nat) : ZMod m) := hzmod
-            _ = (((m - 2 : Nat) : ZMod m) + 1 : ZMod m) := by
-              simpa using hcast1.symm
-        have hwmod : fiberIndex w = ((m - 2 : Nat) : ZMod m) := by
-          exact add_right_cancel hfi
-        have hlt : m - 2 < m := by
-          rcases hm with ⟨hm8, _⟩
-          omega
-        have hwval : (fiberIndex w).val = m - 2 := by
-          have hvals :
-              (fiberIndex w).val = (((m - 2 : Nat) : ZMod m)).val := by
-            exact congrArg ZMod.val hwmod
-          simpa [ZMod.val_natCast_of_lt hlt] using hvals
-        rw [← fiberIndex_val_eq_vertexFiberSum m hm w]
-        exact hwval)
-
-theorem canonicalEvenCompletionTargets_of_explicitTauPredecessorStepMSub1
-    (m : Nat) (hm : admissibleEvenM m)
-    (hstep : CanonicalEvenExceptionalTauPredecessorStepMSub1AllColors m) :
-    CanonicalEvenCompletionTargets m := by
-  exact canonicalEvenCompletionTargets_of_tauPredecessorWitnessMSub1
-    m hm
-    (canonicalEvenExceptionalTauPredecessorWitnessMSub1AllColors_of_explicitStep
-      m hm hstep)
 
 end ClaudeCyclesARZN
